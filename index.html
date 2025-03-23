@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #333;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        h1 {
+            color: #5367e1;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+        }
+        
+        .lobby, .game-area {
+            transition: all 0.5s ease;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .username-display {
+            font-size: 1.2rem;
+            color: #6e8efb;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        
+        .code-input {
+            margin: 20px auto;
+            width: 80%;
+            max-width: 300px;
+            position: relative;
+        }
+        
+        .code-input input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 2px solid #6e8efb;
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        
+        .game-options {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+        
+        .option-btn {
+            background: #6e8efb;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(110, 142, 251, 0.4);
+        }
+        
+        .option-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(110, 142, 251, 0.6);
+        }
+        
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #5367e1;
+        }
+        
+        .modal input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            font-size: 1rem;
+        }
+        
+        .modal button {
+            background: #6e8efb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal button:hover {
+            background: #5367e1;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #6e8efb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .score-display {
+            background: #6e8efb;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            margin: 20px auto;
+            width: fit-content;
+            min-width: 150px;
+        }
+        
+        .question-container {
+            margin: 30px 0;
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question {
+            font-size: 1.3rem;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .answer-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .answer-btn {
+            background: white;
+            border: 2px solid #6e8efb;
+            color: #6e8efb;
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .answer-btn:hover {
+            background: #f0f4ff;
+        }
+        
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: #6e8efb;
+            font-size: 1.2rem;
+            cursor: pointer;
+        }
+        
+        .waiting-text {
+            font-size: 1.2rem;
+            color: #666;
+            margin: 30px 0;
+            animation: blink 1.5s infinite;
+        }
+        
+        @keyframes blink {
+            0% { opacity: 0.5; }
+            50% { opacity: 1; }
+            100% { opacity: 0.5; }
+        }
+        
+        .leaderboard {
+            background: #f9f9f9;
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .leaderboard h2 {
+            color: #5367e1;
+            margin-bottom: 15px;
+        }
+        
+        .leaderboard-list {
+            list-style: none;
+        }
+        
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .win-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+        }
+        
+        .win-content {
+            text-align: center;
+            color: white;
+            animation: scale 0.5s ease-in-out;
+        }
+        
+        @keyframes scale {
+            0% { transform: scale(0); }
+            70% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff0;
+            animation: confetti 5s ease-in-out infinite;
+        }
+        
+        @keyframes confetti {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(1000px) rotate(720deg); opacity: 0; }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .answer-options {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Lobby Area -->
+        <div class="lobby">
+            <h1>Quiz Game</h1>
+            <div class="username-display">Welcome, Guest</div>
+            
+            <div class="code-input">
+                <input type="text" id="codeInput" placeholder="Masukkan Code">
+            </div>
+            
+            <div class="game-options">
+                <button class="option-btn" id="multiplayerBtn">Multiplayer</button>
+                <button class="option-btn" id="singleplayerBtn">Singleplayer</button>
+            </div>
+        </div>
+        
+        <!-- Game Area -->
+        <div class="game-area hidden">
+            <button class="back-btn" id="backBtn">← Keluar</button>
+            <div class="score-display" id="scoreDisplay">Score: 0</div>
+            
+            <div class="waiting-text hidden" id="waitingText">...Menunggu Pemain</div>
+            
+            <div class="question-container hidden" id="questionContainer">
+                <div class="question" id="questionText">Pertanyaan akan muncul di sini</div>
+                <div class="answer-options" id="answerOptions">
+                    <!-- Answer options will be added dynamically -->
+                </div>
+            </div>
+            
+            <div class="leaderboard hidden" id="leaderboard">
+                <h2>Leaderboard</h2>
+                <ul class="leaderboard-list" id="leaderboardList">
+                    <!-- Leaderboard items will be added dynamically -->
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <h2>Masukkan Nama</h2>
+            <input type="text" id="usernameInput" placeholder="Nama Anda">
+            <button id="submitUsernameBtn">Buat</button>
+        </div>
+    </div>
+    
+    <!-- Loading Modal -->
+    <div class="modal hidden" id="loadingModal">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+    
+    <script>
+        // Quiz questions
+        const questions = [
+            {
+                question: "Apa ibukota Indonesia?",
+                options: ["Jakarta", "Surabaya", "Bandung", "Medan"],
+                answer: 0
+            },
+            {
+                question: "Berapakah hasil dari 9 × 7?",
+                options: ["56", "63", "72", "81"],
+                answer: 1
+            },
+            {
+                question: "Siapakah penemu bola lampu?",
+                options: ["Thomas Edison", "Nikola Tesla", "Albert Einstein", "Isaac Newton"],
+                answer: 0
+            },
+            {
+                question: "Planet apa yang paling dekat dengan matahari?",
+                options: ["Venus", "Bumi", "Mars", "Merkurius"],
+                answer: 3
+            },
+            {
+                question: "Berapa jumlah provinsi di Indonesia?",
+                options: ["34", "35", "36", "37"],
+                answer: 0
+            },
+            {
+                question: "Siapakah penulis novel 'Laskar Pelangi'?",
+                options: ["Dee Lestari", "Tere Liye", "Andrea Hirata", "Pramoedya Ananta Toer"],
+                answer: 2
+            },
+            {
+                question: "Apa nama sungai terpanjang di dunia?",
+                options: ["Sungai Nil", "Sungai Amazon", "Sungai Mississippi", "Sungai Yangtze"],
+                answer: 0
+            },
+            {
+                question: "Apa warna yang dihasilkan dari pencampuran merah dan biru?",
+                options: ["Hijau", "Ungu", "Coklat", "Orange"],
+                answer: 1
+            },
+            {
+                question: "Berapa jumlah pemain dalam satu tim sepak bola?",
+                options: ["9", "10", "11", "12"],
+                answer: 2
+            },
+            {
+                question: "Siapakah presiden pertama Indonesia?",
+                options: ["Soekarno", "Soeharto", "B.J. Habibie", "Megawati"],
+                answer: 0
+            },
+            {
+                question: "Berapa jumlah sisi pada kubus?",
+                options: ["4", "6", "8", "12"],
+                answer: 1
+            },
+            {
+                question: "Apa nama mata uang Jepang?",
+                options: ["Won", "Yuan", "Yen", "Ringgit"],
+                answer: 2
+            },
+            {
+                question: "Negara mana yang memiliki penduduk terbanyak di dunia?",
+                options: ["India", "Amerika Serikat", "China", "Indonesia"],
+                answer: 2
+            },
+            {
+                question: "Apa nama ilmuwan yang menemukan hukum gravitasi?",
+                options: ["Albert Einstein", "Isaac Newton", "Galileo Galilei", "Stephen Hawking"],
+                answer: 1
+            },
+            {
+                question: "Berapa derajat jumlah sudut dalam segitiga?",
+                options: ["90 derajat", "180 derajat", "270 derajat", "360 derajat"],
+                answer: 1
+            },
+            {
+                question: "Apa nama gunung tertinggi di dunia?",
+                options: ["K2", "Mount Kilimanjaro", "Mount Everest", "Puncak Jaya"],
+                answer: 2
+            },
+            {
+                question: "Berapa jumlah benua di dunia?",
+                options: ["5", "6", "7", "8"],
+                answer: 2
+            },
+            {
+                question: "Hewan apa yang merupakan simbol perdamaian?",
+                options: ["Elang", "Merpati", "Burung Hantu", "Burung Merak"],
+                answer: 1
+            },
+            {
+                question: "Siapakah penyanyi lagu 'Shape of You'?",
+                options: ["Justin Bieber", "Ed Sheeran", "Bruno Mars", "John Legend"],
+                answer: 1
+            },
+            {
+                question: "Berapa jumlah hari dalam 1 tahun kabisat?",
+                options: ["364", "365", "366", "367"],
+                answer: 2
+            }
+        ];
+        
+        // Bot names
+        const botNames = ["BotKocak", "PintarBot", "QuizMaster", "JeniusAI", "BrainBot", "QuizWhiz", "MindMaster", "EinsteinBot", "NewbieBot", "RandomBot"];
+        
+        // Bot difficulty levels (0 = easy, 1 = medium, 2 = hard)
+        const botDifficulties = {
+            "BotKocak": 0,
+            "NewbieBot": 0,
+            "RandomBot": 0,
+            "QuizWhiz": 1,
+            "MindMaster": 1,
+            "PintarBot": 1,
+            "QuizMaster": 2,
+            "JeniusAI": 2,
+            "BrainBot": 2,
+            "EinsteinBot": 2
+        };
+        
+        // Game variables
+        let username = "";
+        let score = 0;
+        let gameMode = "";
+        let gameCode = "";
+        let currentQuestion = 0;
+        let opponents = [];
+        let gameInterval;
+        let timePerQuestion = 10000; // 10 seconds per question
+        
+        // DOM Elements
+        const lobbyArea = document.querySelector('.lobby');
+        const gameArea = document.querySelector('.game-area');
+        const loginModal = document.getElementById('loginModal');
+        const loadingModal = document.getElementById('loadingModal');
+        const usernameInput = document.getElementById('usernameInput');
+        const submitUsernameBtn = document.getElementById('submitUsernameBtn');
+        const usernameDisplay = document.querySelector('.username-display');
+        const multiplayerBtn = document.getElementById('multiplayerBtn');
+        const singleplayerBtn = document.getElementById('singleplayerBtn');
+        const backBtn = document.getElementById('backBtn');
+        const codeInput = document.getElementById('codeInput');
+        const scoreDisplay = document.getElementById('scoreDisplay');
+        const waitingText = document.getElementById('waitingText');
+        const questionContainer = document.getElementById('questionContainer');
+        const questionText = document.getElementById('questionText');
+        const answerOptions = document.getElementById('answerOptions');
+        const leaderboard = document.getElementById('leaderboard');
+        const leaderboardList = document.getElementById('leaderboardList');
+        
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', function() {
+            checkStoredUsername();
+            initEventListeners();
+        });
+        
+        function checkStoredUsername() {
+            const storedUsername = localStorage.getItem('quizUsername');
+            
+            if (storedUsername) {
+                // User has played before with this device
+                loadingModal.classList.remove('hidden');
+                setTimeout(() => {
+                    username = storedUsername;
+                    usernameDisplay.textContent = `Welcome, ${username}`;
+                    loadingModal.classList.add('hidden');
+                }, 1500);
+            } else {
+                // First time playing or new device
+                loginModal.classList.remove('hidden');
+            }
+        }
+        
+        function initEventListeners() {
+            // Submit username
+            submitUsernameBtn.addEventListener('click', function() {
+                const inputValue = usernameInput.value.trim();
+                
+                if (inputValue.length > 0) {
+                    username = inputValue;
+                    localStorage.setItem('quizUsername', username);
+                    loginModal.classList.add('hidden');
+                    usernameDisplay.textContent = `Welcome, ${username}`;
+                }
+            });
+            
+            // Start multiplayer game
+            multiplayerBtn.addEventListener('click', function() {
+                const inputCode = codeInput.value.trim();
+                
+                if (inputCode) {
+                    // Join existing game with code
+                    joinGame(inputCode);
+                } else {
+                    // Create new multiplayer game
+                    gameMode = "multiplayer";
+                    switchToGame();
+                    generateGameCode();
+                    waitForPlayers();
+                }
+            });
+            
+            // Start singleplayer game
+            singleplayerBtn.addEventListener('click', function() {
+                gameMode = "singleplayer";
+                switchToGame();
+                setupSingleplayerGame();
+            });
+            
+            // Back to lobby
+            backBtn.addEventListener('click', function() {
+                endGame();
+                switchToLobby();
+            });
+        }
+        
+        function switchToGame() {
+            lobbyArea.classList.add('hidden');
+            gameArea.classList.remove('hidden');
+            resetGame();
+        }
+        
+        function switchToLobby() {
+            gameArea.classList.add('hidden');
+            lobbyArea.classList.remove('hidden');
+            codeInput.value = '';
+        }
+        
+        function resetGame() {
+            score = 0;
+            currentQuestion = 0;
+            opponents = [];
+            clearInterval(gameInterval);
+            
+            // Reset UI
+            scoreDisplay.textContent = "Score: 0";
+            waitingText.classList.add('hidden');
+            questionContainer.classList.add('hidden');
+            leaderboard.classList.add('hidden');
+            
+            // Clear answer options
+            answerOptions.innerHTML = '';
+        }
+        
+        function generateGameCode() {
+            // Generate a random 6-digit code
+            gameCode = Math.floor(100000 + Math.random() * 900000).toString();
+            scoreDisplay.textContent = `Code: ${gameCode}`;
+        }
+        
+        function waitForPlayers() {
+            waitingText.classList.remove('hidden');
+            
+            // Simulate waiting for players (in a real app this would be using WebSockets or similar)
+            setTimeout(() => {
+                // Add a simulated opponent
+                const botName = botNames[Math.floor(Math.random() * botNames.length)];
+                opponents.push({
+                    name: botName,
+                    score: 0,
+                    isBot: true
+                });
+                
+                startGame();
+            }, 3000);
+        }
+        
+        function joinGame(code) {
+            gameMode = "multiplayer";
+            switchToGame();
+            
+            waitingText.classList.remove('hidden');
+            
+            // Simulate joining a game (in a real app this would verify the code)
+            setTimeout(() => {
+                gameCode = code;
+                
+                // Add a simulated host player
+                const botName = botNames[Math.floor(Math.random() * botNames.length)];
+                opponents.push({
+                    name: botName,
+                    score: 0,
+                    isBot: true
+                });
+                
+                startGame();
+            }, 2000);
+        }
+        
+        function setupSingleplayerGame() {
+            // Add a bot opponent for single player
+            const botName = botNames[Math.floor(Math.random() * botNames.length)];
+            opponents.push({
+                name: botName,
+                score: 0,
+                isBot: true,
+                difficulty: botDifficulties[botName]
+            });
+            
+            startGame();
+        }
+        
+        function startGame() {
+            waitingText.classList.add('hidden');
+            scoreDisplay.textContent = `Score: 0`;
+            questionContainer.classList.remove('hidden');
+            
+            // Shuffle questions
+            shuffleArray(questions);
+            
+            // Show first question
+            showQuestion();
+            
+            // Start game interval for bot answers
+            gameInterval = setInterval(() => {
+                // Bot answer logic
+                if (opponents.length > 0) {
+                    opponents.forEach(opponent => {
+                        if (opponent.isBot) {
+                            const botAnswer = getBotAnswer(opponent, currentQuestion);
+                            if (botAnswer === questions[currentQuestion].answer) {
+                                opponent.score += 1;
+                            } else {
+                                opponent.score = Math.max(0, opponent.score - 1);
+                            }
+                            
+                            // Check if bot has won
+                            if (opponent.score >= 15) {
+                                showWinAnimation(opponent.name);
+                                setTimeout(() => {
+                                    showLeaderboard();
+                                }, 3000);
+                            }
+                        }
+                    });
+                }
+            }, timePerQuestion);
+        }
+        
+        function getBotAnswer(bot, questionIndex) {
+            const correctAnswer = questions[questionIndex].answer;
+            const difficulty = bot.difficulty || 1;
+            
+            // Different probabilities based on difficulty
+            let probability;
+            
+            switch(difficulty) {
+                case 0: // Easy - 40% correct
+                    probability = 0.4;
+                    break;
+                case 1: // Medium - 60% correct
+                    probability = 0.6;
+                    break;
+                case 2: // Hard - 85% correct
+                    probability = 0.85;
+                    break;
+                default:
+                    probability = 0.5;
+            }
+            
+            // Determine if bot gets correct answer
+            if (Math.random() < probability) {
+                return correctAnswer;
+            } else {
+                // Return random wrong answer
+                let wrongAnswers = [0, 1, 2, 3].filter(i => i !== correctAnswer);
+                return wrongAnswers[Math.floor(Math.random() * wrongAnswers.length)];
+            }
+        }
+        
+        function showQuestion() {
+            if (currentQuestion >= questions.length) {
+                // Ran out of questions, shuffle and start over
+                shuffleArray(questions);
+                currentQuestion = 0;
+            }
+            
+            const question = questions[currentQuestion];
+            questionText.textContent = question.question;
+            
+            // Clear previous options
+            answerOptions.innerHTML = '';
+            
+            // Add answer options
+            question.options.forEach((option, index) => {
+                const button = document.createElement('button');
+                button.className = 'answer-btn';
+                button.textContent = option;
+                button.addEventListener('click', () => checkAnswer(index));
+                answerOptions.appendChild(button);
+            });
+        }
+        
+        function checkAnswer(selectedIndex) {
+            const correctIndex = questions[currentQuestion].answer;
+            
+            if (selectedIndex === correctIndex) {
+                // Correct answer
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                
+                // Flash green for correct
+                answerOptions.children[selectedIndex].style.backgroundColor = '#8eff8e';
+                answerOptions.children[selectedIndex].style.borderColor = '#2ecc71';
+            } else {
+                // Wrong answer
+                score = Math.max(0, score - 1);
+                scoreDisplay.textContent = `Score: ${score}`;
+                
+                // Flash red for incorrect
+                answerOptions.children[selectedIndex].style.backgroundColor = '#ffadad';
+                answerOptions.children[selectedIndex].style.borderColor = '#e74c3c';
+                
+                // Show correct answer
+                answerOptions.children[correctIndex].style.backgroundColor = '#8eff8e';
+                answerOptions.children[correctIndex].style.borderColor = '#2ecc71';
+            }
+            
+            // Disable all buttons temporarily
+            Array.from(answerOptions.children).forEach(btn => {
+                btn.disabled = true;
+            });
+            
+            // Check if player has won
+            if (score >= 15) {
+                showWinAnimation(username);
+                setTimeout(() => {
+                    showLeaderboard();
+                }, 3000);
+                return;
+            }
+            
+            // Move to next question after delay
+            setTimeout(() => {
+                currentQuestion++;
+                showQuestion();
+            }, 1000);
+        }
+        
+        function showWinAnimation(winnerName) {
+            clearInterval(gameInterval);
+            
+            // Create win animation
+            const winAnimation = document.createElement('div');
+            winAnimation.className = 'win-animation';
+            
+            const winContent = document.createElement('div');
+            winContent.className = 'win-content';
+            
+            const winTitle = document.createElement('h1');
+            winTitle.textContent = `${winnerName} Menang!`;
+            
+            const winMessage = document.createElement('p');
+            winMessage.textContent = 'Selamat! Kamu telah mencapai 15 poin!';
+            
+            winContent.appendChild(winTitle);
+            winContent.appendChild(winMessage);
+            winAnimation.appendChild(winContent);
+            
+            // Add confetti
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDelay = Math.random() * 5 + 's';
+                confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+                winAnimation.appendChild(confetti);
+            }
+            
+            document.body.appendChild(winAnimation);
+            
+            // Remove animation after 3 seconds
+            setTimeout(() => {
+                document.body.removeChild(winAnimation);
+            }, 3000);
+        }
+        
+        function showLeaderboard() {
+            // Hide question container
+            questionContainer.classList.add('hidden');
+            
+            // Show leaderboard
+            leaderboard.classList.remove('hidden');
+            
+            // Clear previous leaderboard
+            leaderboardList.innerHTML = '';
+            
+            // Add all players to leaderboard
+            const allPlayers = [...opponents, { name: username, score: score }];
+            allPlayers.sort((a, b) => b.score - a.score);
+            
+            allPlayers.forEach((player, index) => {
+                const item = document.createElement('li');
+                item.className = 'leaderboard-item';
+                
+                const rank = document.createElement('span');
+                rank.textContent = `#${index + 1}`;
+                
+                const name = document.createElement('span');
+                name.textContent = player.name;
+                
+                const playerScore = document.createElement('span');
+                playerScore.textContent = `${player.score} points`;
+                
+                item.appendChild(rank);
+                item.appendChild(name);
+                item.appendChild(playerScore);
+                
+                leaderboardList.appendChild(item);
+            });
+            
+            // End game
+            endGame();
+        }
+        
+        function endGame() {
+            clearInterval(gameInterval);
+        }
+        
+        // Utility function to shuffle array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+    </script>
+</body>
+</html>
