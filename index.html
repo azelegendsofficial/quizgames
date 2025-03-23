@@ -453,6 +453,147 @@
             }
         }
     </style>
+    <style>
+    .update-modal {
+        max-width: 500px;
+        padding: 0;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+    }
+    
+    .update-header {
+        background: linear-gradient(135deg, #5367e1, #a777e3);
+        color: white;
+        padding: 20px;
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+    
+    .update-badge {
+        background-color: #ff7676;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        margin-right: 15px;
+    }
+    
+    .update-header h2 {
+        margin: 0;
+        flex-grow: 1;
+    }
+    
+    .close-btn {
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+    
+    .update-body {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .update-icon {
+        font-size: 3rem;
+        margin-bottom: 20px;
+    }
+    
+    .update-features h3 {
+        color: #5367e1;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .update-features ul {
+        list-style: none;
+        padding: 0;
+    }
+    
+    .update-features li {
+        display: flex;
+        margin-bottom: 20px;
+        align-items: flex-start;
+    }
+    
+    .feature-icon {
+        background: #f0f3ff;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 15px;
+        font-size: 1.2rem;
+    }
+    
+    .feature-info {
+        flex-grow: 1;
+    }
+    
+    .feature-info strong {
+        display: block;
+        margin-bottom: 5px;
+        color: #333;
+    }
+    
+    .feature-info p {
+        margin: 0;
+        color: #666;
+        font-size: 0.9rem;
+    }
+    
+    .update-footer {
+        padding: 15px 20px;
+        background: #f5f5f5;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .update-footer button {
+        padding: 10px 20px;
+        border-radius: 20px;
+        border: none;
+        cursor: pointer;
+        font-weight: 500;
+        transition: all 0.3s ease;
+    }
+    
+    #updateDetailsBtn {
+        background: transparent;
+        color: #5367e1;
+    }
+    
+    #updateDetailsBtn:hover {
+        background: #eaeaea;
+    }
+    
+    .primary-btn {
+        background: #5367e1;
+        color: white;
+    }
+    
+    .primary-btn:hover {
+        background: #4355c7;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(83, 103, 225, 0.3);
+    }
+
+    /* Animation for the modal */
+    @keyframes slideDown {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+    
+    #updateModal .modal-content {
+        animation: slideDown 0.5s ease forwards;
+    }
+</style>
 </head>
 <body>
     <div class="container" id="main-container">
@@ -569,6 +710,49 @@
         <div class="modal-content">
             <div class="spinner"></div>
             <p>Loading...</p>
+        </div>
+    </div>
+
+    <!-- Update Announcement Modal -->
+<div class="modal" id="updateModal">
+    <div class="modal-content update-modal">
+        <div class="update-header">
+            <div class="update-badge">NEW</div>
+            <h2>Quiz.com v2.0 Update</h2>
+            <span class="close-btn" id="closeUpdateBtn">&times;</span>
+        </div>
+        <div class="update-body">
+            <div class="update-icon">🚀</div>
+            <div class="update-features">
+                <h3>What's New:</h3>
+                <ul>
+                    <li>
+                        <span class="feature-icon">✏️</span>
+                        <div class="feature-info">
+                            <strong>Custom Quiz Questions</strong>
+                            <p>Create your own questions or import from external sources</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">🐛</span>
+                        <div class="feature-info">
+                            <strong>Bug Fixes</strong>
+                            <p>Improved system stability and performance</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="feature-icon">🎨</span>
+                        <div class="feature-info">
+                            <strong>UI Improvements</strong>
+                            <p>Fresh new look and better game experience</p>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="update-footer">
+            <button id="updateDetailsBtn">See Full Details</button>
+            <button id="dismissUpdateBtn" class="primary-btn">Got it!</button>
         </div>
     </div>
     
@@ -1186,6 +1370,53 @@
                 usernameInput.value = previousUsername;
             }
         });
+</script>
+<script>
+    // Add this to your existing JavaScript code
+
+// DOM Elements for the update modal
+const updateModal = document.getElementById('updateModal');
+const closeUpdateBtn = document.getElementById('closeUpdateBtn');
+const dismissUpdateBtn = document.getElementById('dismissUpdateBtn');
+const updateDetailsBtn = document.getElementById('updateDetailsBtn');
+
+// Show update modal when page is loaded
+document.addEventListener('DOMContentLoaded', function() {
+    // Delay the popup to allow page to load first
+    setTimeout(() => {
+        // Check if the user has already seen this update
+        if (!localStorage.getItem('updateV2Seen')) {
+            updateModal.classList.remove('hidden');
+        }
+    }, 1500);
+});
+
+// Close the update modal
+closeUpdateBtn.addEventListener('click', () => {
+    updateModal.classList.add('hidden');
+    localStorage.setItem('updateV2Seen', 'true');
+});
+
+dismissUpdateBtn.addEventListener('click', () => {
+    updateModal.classList.add('hidden');
+    localStorage.setItem('updateV2Seen', 'true');
+});
+
+// Prevent closing when clicking inside the modal content
+updateModal.querySelector('.modal-content').addEventListener('click', (event) => {
+    event.stopPropagation();
+});
+
+// Close modal when clicking outside
+updateModal.addEventListener('click', () => {
+    updateModal.classList.add('hidden');
+    localStorage.setItem('updateV2Seen', 'true');
+});
+
+// Show more details (you could expand this to show a more detailed view)
+updateDetailsBtn.addEventListener('click', () => {
+    alert('Visit our blog at quiz.com/blog to read the full update notes!');
+});
 </script>
 </body>
 </html>
