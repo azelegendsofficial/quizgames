@@ -1413,9 +1413,9 @@ updateModal.addEventListener('click', () => {
     localStorage.setItem('updateV2Seen', 'true');
 });
 
-// Show more details (you could expand this to show a more detailed view)
+// Show more details by redirecting to the full announcements page
 updateDetailsBtn.addEventListener('click', () => {
-    alert('Visit our blog at quiz.com/blog to read the full update notes!');
+    window.location.href = 'announcements.html'; // Redirect to the announcements page
 });
 </script>
 </body>
