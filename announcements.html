@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuizGames v2.0 - Update Announcements</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px 0;
+            border-bottom: 1px solid #e1e4e8;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-btn {
+            text-decoration: none;
+            color: #555;
+            display: flex;
+            align-items: center;
+        }
+
+        .back-btn:hover {
+            color: #000;
+        }
+
+        .update-badge {
+            background-color: #ff5722;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .version-info {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px;
+            gap: 10px;
+        }
+
+        .release-date {
+            color: #666;
+            font-size: 16px;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 15px 0;
+            color: #2a2a2a;
+        }
+
+        h2 {
+            font-size: 24px;
+            margin: 25px 0 15px 0;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #e1e4e8;
+            color: #0066cc;
+        }
+
+        h3 {
+            font-size: 20px;
+            margin: 15px 0 10px 0;
+            color: #333;
+        }
+
+        .feature-section {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .feature-card {
+            display: flex;
+            margin-bottom: 25px;
+            align-items: flex-start;
+        }
+
+        .feature-icon {
+            font-size: 24px;
+            min-width: 40px;
+            height: 40px;
+            background-color: #e6f7ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .feature-content h4 {
+            font-size: 18px;
+            margin-bottom: 8px;
+            color: #0066cc;
+        }
+
+        .feature-content p {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        .screenshot {
+            width: 100%;
+            border-radius: 6px;
+            margin: 15px 0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+
+        li {
+            margin-bottom: 8px;
+        }
+
+        .bug-fix {
+            background-color: #f8f8f8;
+            padding: 10px 15px;
+            border-left: 3px solid #ff9800;
+            margin-bottom: 10px;
+            border-radius: 4px;
+        }
+
+        .coming-soon {
+            background-color: #f0f8ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .coming-soon h3 {
+            color: #0066cc;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 20px;
+            color: #666;
+            font-size: 14px;
+            border-top: 1px solid #e1e4e8;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background-color: #0066cc;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #0055aa;
+        }
+
+        .btn-secondary {
+            background-color: #f5f5f5;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e9e9e9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn">
+                ← Back to QuizGames
+            </a>
+        </div>
+
+        <header>
+            <div class="version-info">
+                <div class="update-badge">NEW</div>
+                <span class="release-date">Released: March 15, 2025</span>
+            </div>
+            <h1>QuizGames v2.0 Update</h1>
+            <p>A major update with exciting new features and improvements!</p>
+        </header>
+
+        <section class="feature-section">
+            <h2>Major Features</h2>
+            
+            <div class="feature-card">
+                <div class="feature-icon">✏️</div>
+                <div class="feature-content">
+                    <h4>Custom Quiz Questions</h4>
+                    <p>Create your own quiz questions or import them from external sources. You can now fully customize your quiz experience!</p>
+                    <ul>
+                        <li>Add multiple-choice, true/false, and fill-in-the-blank questions</li>
+                        <li>Import questions from CSV files</li>
+                        <li>Organize questions by categories and difficulty levels</li>
+                        <li>Share your custom question banks with friends</li>
+                    </ul>
+                    <img src="/api/placeholder/800/400" alt="Custom Quiz Creator Interface" class="screenshot" />
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🎨</div>
+                <div class="feature-content">
+                    <h4>UI Improvements</h4>
+                    <p>We've completely redesigned the user interface to make your quiz experience more enjoyable and intuitive.</p>
+                    <ul>
+                        <li>Fresh, modern look with improved color schemes</li>
+                        <li>Responsive design that works on all devices</li>
+                        <li>New animations and transitions for a smoother experience</li>
+                        <li>Improved accessibility features</li>
+                        <li>Dark mode support</li>
+                    </ul>
+                    <img src="/api/placeholder/800/400" alt="New UI Design" class="screenshot" />
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <div class="feature-content">
+                    <h4>Multiplayer Enhancements</h4>
+                    <p>The multiplayer experience has been significantly upgraded with new features.</p>
+                    <ul>
+                        <li>Real-time player status updates</li>
+                        <li>In-game chat system</li>
+                        <li>New competitive modes</li>
+                        <li>Global and friend leaderboards</li>
+                    </ul>
+                    <img src="/api/placeholder/800/400" alt="Multiplayer Mode" class="screenshot" />
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-section">
+            <h2>Bug Fixes & Performance Improvements</h2>
+            
+            <div class="bug-fix">
+                <strong>Fixed:</strong> Score calculation issue in timed mode
+            </div>
+            <div class="bug-fix">
+                <strong>Fixed:</strong> Questions sometimes appearing twice in random mode
+            </div>
+            <div class="bug-fix">
+                <strong>Fixed:</strong> Login persistence issues on some browsers
+            </div>
+            <div class="bug-fix">
+                <strong>Fixed:</strong> Game freezing when switching between categories too quickly
+            </div>
+            <div class="bug-fix">
+                <strong>Fixed:</strong> Results screen not showing all statistics
+            </div>
+            
+            <h3>Performance Improvements</h3>
+            <ul>
+                <li>Reduced loading times by 40%</li>
+                <li>Optimized database queries for faster question retrieval</li>
+                <li>Improved caching for frequently accessed content</li>
+                <li>Reduced memory usage</li>
+            </ul>
+        </section>
+
+        <section class="feature-section">
+            <h2>Additional Enhancements</h2>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-content">
+                    <h4>Enhanced Statistics</h4>
+                    <p>Track your progress with detailed statistics and analytics.</p>
+                    <ul>
+                        <li>Visualized performance trends</li>
+                        <li>Category-specific performance metrics</li>
+                        <li>Comparative analysis with previous attempts</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <div class="feature-content">
+                    <h4>New Achievement System</h4>
+                    <p>Unlock achievements as you play and show them off on your profile.</p>
+                    <ul>
+                        <li>Over 30 new achievements to unlock</li>
+                        <li>Special badges for exceptional performance</li>
+                        <li>Monthly challenges with unique rewards</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <div class="feature-content">
+                    <h4>Mobile App Improvements</h4>
+                    <p>The mobile app has been rebuilt from the ground up for better performance.</p>
+                    <ul>
+                        <li>Offline mode for playing without internet connection</li>
+                        <li>Push notifications for challenges and updates</li>
+                        <li>Improved touch controls</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <div class="coming-soon">
+            <h3>Coming Soon in v2.1</h3>
+            <p>We're already working on our next update, which will include:</p>
+            <ul style="list-style-type: none; padding: 0;">
+                <li>🎮 Game controller support</li>
+                <li>🌐 Additional language options</li>
+                <li>🎥 Video question format</li>
+                <li>🧠 AI-powered difficulty adaptation</li>
+            </ul>
+        </div>
+
+        <div class="action-buttons">
+            <a href="index.html" class="btn btn-primary">Start Playing Now</a>
+            <a href="feedback.html" class="btn btn-secondary">Send Feedback</a>
+        </div>
+
+        <footer>
+            <p>QuizGames v2.0 | Released: March 15, 2025</p>
+            <p>© 2025 QuizGames Inc. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
