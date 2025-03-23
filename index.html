@@ -530,13 +530,13 @@
             const storedUsername = localStorage.getItem('quizUsername');
             
             if (storedUsername) {
-                // User has played before with this device - shorter loading time (500ms)
+                // User has played before with this device - exactly 3 seconds loading time
                 loadingModal.classList.remove('hidden');
                 setTimeout(() => {
                     username = storedUsername;
                     usernameDisplay.textContent = `Welcome, ${username}`;
                     loadingModal.classList.add('hidden');
-                }, 500); // Dikurangi dari 1500ms menjadi 500ms
+                }, 3000); // Set to exactly 3 seconds
             } else {
                 // First time playing or new device
                 loginModal.classList.remove('hidden');
@@ -631,7 +631,7 @@
             waitingText.classList.remove('hidden');
             
             // Simulate waiting for players (in a real app this would be using WebSockets or similar)
-            // Reduced waiting time from 3000ms to 1000ms
+            // Set waiting time to exactly 3 seconds
             setTimeout(() => {
                 // Add a simulated opponent
                 const botName = botNames[Math.floor(Math.random() * botNames.length)];
@@ -642,7 +642,7 @@
                 });
                 
                 startGame();
-            }, 1000); // Dikurangi dari 3000ms menjadi 1000ms
+            }, 3000); // Set to exactly 3 seconds
         }
         
         function joinGame(code) {
@@ -652,7 +652,7 @@
             waitingText.classList.remove('hidden');
             
             // Simulate joining a game (in a real app this would verify the code)
-            // Reduced waiting time from 2000ms to 800ms
+            // Set waiting time to exactly 3 seconds
             setTimeout(() => {
                 gameCode = code;
                 
@@ -665,7 +665,7 @@
                 });
                 
                 startGame();
-            }, 800); // Dikurangi dari 2000ms menjadi 800ms
+            }, 3000); // Set to exactly 3 seconds
         }
         
         function setupSingleplayerGame() {
@@ -711,7 +711,7 @@
                                 showWinAnimation(opponent.name);
                                 setTimeout(() => {
                                     showLeaderboard();
-                                }, 1500); // Dikurangi dari 3000ms menjadi 1500ms
+                                }, 3000); // Set to 3 seconds
                             }
                         }
                     });
@@ -808,15 +808,15 @@
                 showWinAnimation(username);
                 setTimeout(() => {
                     showLeaderboard();
-                }, 1500); // Dikurangi dari 3000ms menjadi 1500ms
+                }, 3000); // Set to 3 seconds
                 return;
             }
             
-            // Move to next question after delay - reduced delay
+            // Move to next question after delay
             setTimeout(() => {
                 currentQuestion++;
                 showQuestion();
-            }, 700); // Dikurangi dari 1000ms menjadi 700ms
+            }, 1000); // Set to 1 second
         }
         
         function showWinAnimation(winnerName) {
@@ -839,22 +839,22 @@
             winContent.appendChild(winMessage);
             winAnimation.appendChild(winContent);
             
-            // Add confetti (reduced for performance)
-            for (let i = 0; i < 50; i++) { // Dikurangi dari 100 menjadi 50
+            // Add confetti
+            for (let i = 0; i < 100; i++) {
                 const confetti = document.createElement('div');
                 confetti.className = 'confetti';
                 confetti.style.left = Math.random() * 100 + 'vw';
-                confetti.style.animationDelay = Math.random() * 2 + 's'; // Dikurangi dari 5s menjadi 2s
+                confetti.style.animationDelay = Math.random() * 5 + 's';
                 confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
                 winAnimation.appendChild(confetti);
             }
             
             document.body.appendChild(winAnimation);
             
-            // Remove animation after shorter time
+            // Remove animation after 3 seconds
             setTimeout(() => {
                 document.body.removeChild(winAnimation);
-            }, 1500); // Dikurangi dari 3000ms menjadi 1500ms
+            }, 3000); // Set to 3 seconds
         }
         
         function showLeaderboard() {
@@ -904,15 +904,9 @@
             for (let i = array.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [array[i], array[j]] = [array[j], array[i]];
-
-    // Utility function to shuffle array
-function shuffleArray(array) {
-    for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
-}
-                </script>
+            }
+            return array;
+        }
+    </script>
 </body>
 </html>
