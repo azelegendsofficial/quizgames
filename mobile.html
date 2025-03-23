@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game Mobile</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6e8efb, #a777e3);
+            min-height: 100vh;
+            color: #333;
+            padding: 10px;
+        }
+        
+        .container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            max-width: 480px;
+        }
+        
+        header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #5367e1;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo span {
+            color: #ff7676;
+        }
+        
+        .pin-input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            background-color: #ffb6b9;
+            padding: 10px 15px;
+            border-radius: 16px;
+            gap: 8px;
+        }
+        
+        .pin-input label {
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .pin-input input {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px 15px;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        .search-btn, .sign-in-btn {
+            padding: 10px 20px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .search-btn {
+            background: #f8f8f8;
+            color: #333;
+        }
+        
+        .sign-in-btn {
+            background: #c1f2a1;
+            color: #333;
+        }
+        
+        .game-modes {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .mode-card {
+            background-color: #1e3a5f;
+            border-radius: 12px;
+            padding: 20px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .mode-image {
+            width: 100px;
+            height: 100px;
+            margin-bottom: 15px;
+        }
+        
+        .mode-title {
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .mode-desc {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .mode-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.4);
+        }
+        
+        .how-to-play {
+            background: #f5f5f5;
+            border-radius: 12px;
+            padding: 15px;
+        }
+        
+        .how-to-play h2 {
+            color: #5367e1;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+        
+        .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .step {
+            background: white;
+            padding: 12px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 28px;
+            height: 28px;
+            background: #5367e1;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 28px;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        
+        .modal-content {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 350px;
+            text-align: center;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #5367e1;
+        }
+        
+        .modal input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+            font-size: 1rem;
+        }
+        
+        .modal button {
+            background: #6e8efb;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .modal button:hover {
+            background: #5367e1;
+        }
+        
+        .pin-display {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #5367e1;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6e8efb;
+            border-radius: 50%;
+            animation: spin 0.5s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Quiz Game Styles */
+        .quiz-container {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin: 0 auto;
+            max-width: 480px;
+        }
+        
+        .quiz-header {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .top-quiz-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .category-display {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #5367e1;
+            background: #f0f3ff;
+            padding: 5px 12px;
+            border-radius: 20px;
+            text-align: center;
+            margin-bottom: 8px;
+        }
+        
+        .question-counter {
+            font-size: 1rem;
+        }
+        
+        .timer {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #ff7676;
+            background: #fff0f0;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .question-container {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 15px;
+        }
+        
+        .question-text {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+        
+        .options-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .option {
+            background: white;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .option:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+        }
+        
+        .option.selected {
+            background: #d4e6ff;
+            border-color: #5367e1;
+        }
+        
+        .option.correct {
+            background: #c1f2a1;
+            border-color: #4CAF50;
+        }
+        
+        .option.incorrect {
+            background: #ffb6b9;
+            border-color: #ff7676;
+        }
+        
+        .feedback {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            background: #f5f5f5;
+        }
+        
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 15px;
+        }
+        
+        .score-display {
+            font-size: 1.1rem;
+            font-weight: bold;
+        }
+        
+        .next-btn {
+            background: #5367e1;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .next-btn:hover {
+            background: #3f51b5;
+        }
+        
+        .results-container {
+            text-align: center;
+            padding: 20px 15px;
+        }
+        
+        .results-title {
+            font-size: 1.8rem;
+            color: #5367e1;
+            margin-bottom: 15px;
+        }
+        
+        .results-score {
+            font-size: 2.5rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .results-message {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+        }
+        
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .restart-btn, .home-btn {
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .restart-btn {
+            background: #5367e1;
+            color: white;
+        }
+        
+        .home-btn {
+            background: #f5f5f5;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="main-container">
+        <header>
+            <div class="logo">Quiz<span>.com</span></div>
+            <div class="pin-input">
+                <label for="joinPin">Join Game? Enter PIN:</label>
+                <input type="text" id="joinPin" placeholder="123 456">
+            </div>
+            <div class="user-actions">
+                <button class="search-btn">🔍</button>
+                <button class="sign-in-btn">Sign in</button>
+            </div>
+        </header>
+        
+        <div class="game-modes">
+            <div class="mode-card">
+                <img src="https://via.placeholder.com/100" alt="Multiplayer" class="mode-image">
+                <h2 class="mode-title">Multiplayer</h2>
+                <p class="mode-desc">Play with friends or random opponents. Create a room and share the PIN!</p>
+                <button class="mode-btn" id="multiplayerBtn">Create Room</button>
+            </div>
+            
+            <div class="mode-card">
+                <img src="https://via.placeholder.com/100" alt="Singleplayer" class="mode-image">
+                <h2 class="mode-title">Singleplayer</h2>
+                <p class="mode-desc">Challenge yourself against AI opponents with various difficulty levels.</p>
+                <button class="mode-btn" id="singleplayerBtn">Play Now</button>
+            </div>
+        </div>
+        
+        <div class="how-to-play">
+            <h2>How to Play</h2>
+            <div class="steps">
+                <div class="step">
+                    <span class="step-number">1</span>
+                    <span>Choose game mode (Multiplayer or Singleplayer)</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">2</span>
+                    <span>For multiplayer, create a room and share the PIN with friends</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">3</span>
+                    <span>Answer questions correctly to score points</span>
+                </div>
+                <div class="step">
+                    <span class="step-number">4</span>
+                    <span>First player to reach 15 points wins!</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Quiz Game Screen (Initially Hidden) -->
+    <div class="quiz-container hidden" id="quiz-container">
+        <div class="quiz-header">
+            <div class="category-display" id="category-display">Category: Loading...</div>
+            <div class="top-quiz-info">
+                <div class="question-counter" id="question-counter">Question 1 of 10</div>
+                <div class="timer" id="timer">30</div>
+            </div>
+        </div>
+        
+        <div class="question-container">
+            <div class="question-text" id="question-text">Question loading...</div>
+            <div class="options-container" id="options-container">
+                <!-- Options will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="feedback hidden" id="feedback">Correct!</div>
+        
+        <div class="quiz-footer">
+            <div class="score-display" id="score-display">Score: 0</div>
+            <button class="next-btn hidden" id="next-btn">Next Question</button>
+        </div>
+    </div>
+    
+    <!-- Results Screen (Initially Hidden) -->
+    <div class="quiz-container hidden" id="results-container">
+        <div class="results-container">
+            <h2 class="results-title">Quiz Completed!</h2>
+            <div class="results-score" id="final-score">0/10</div>
+            <div class="results-message" id="results-message">Great job!</div>
+            <div class="action-btns">
+                <button class="restart-btn" id="restart-btn">Play Again</button>
+                <button class="home-btn" id="home-btn">Back to Home</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Login Modal -->
+    <div class="modal hidden" id="loginModal">
+        <div class="modal-content">
+            <h2>Enter Your Name</h2>
+            <input type="text" id="usernameInput" placeholder="Your Name">
+            <button id="submitUsernameBtn">Continue</button>
+        </div>
+    </div>
+    
+    <!-- PIN Display Modal -->
+    <div class="modal hidden" id="pinModal">
+        <div class="modal-content">
+            <h2>Room Created!</h2>
+            <p>Share this PIN with your friends:</p>
+            <div class="pin-display" id="roomPin">123456</div>
+            <p>Waiting for players to join...</p>
+            <div class="spinner"></div>
+            <button id="startGameBtn">Start Game</button>
+        </div>
+    </div>
+    
+    <!-- Loading Modal -->
+    <div class="modal hidden" id="loadingModal">
+        <div class="modal-content">
+            <div class="spinner"></div>
+            <p>Loading...</p>
+        </div>
+    </div>
+    
+    <script>
+        // DOM Elements
+        const joinPinInput = document.getElementById('joinPin');
+        const multiplayerBtn = document.getElementById('multiplayerBtn');
+        const singleplayerBtn = document.getElementById('singleplayerBtn');
+        const loginModal = document.getElementById('loginModal');
+        const pinModal = document.getElementById('pinModal');
+        const loadingModal = document.getElementById('loadingModal');
+        const usernameInput = document.getElementById('usernameInput');
+        const submitUsernameBtn = document.getElementById('submitUsernameBtn');
+        const roomPinDisplay = document.getElementById('roomPin');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const signInBtn = document.querySelector('.sign-in-btn');
+        
+        // Quiz Elements
+        const mainContainer = document.getElementById('main-container');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const categoryDisplay = document.getElementById('category-display');
+        const questionCounter = document.getElementById('question-counter');
+        const timerDisplay = document.getElementById('timer');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackDisplay = document.getElementById('feedback');
+        const scoreDisplay = document.getElementById('score-display');
+        const nextBtn = document.getElementById('next-btn');
+        const finalScore = document.getElementById('final-score');
+        const resultsMessage = document.getElementById('results-message');
+        const restartBtn = document.getElementById('restart-btn');
+        const homeBtn = document.getElementById('home-btn');
+        
+        // Game variables
+        let username = "";
+        let gamePin = "";
+        let currentQuiz = null;
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timer = null;
+        let timeLeft = 30;
+        let hasAnswered = false;
+        
+        // Categories
+        const categories = [
+            "Matematika",
+            "Informatika",
+            "IPA",
+            "IPS",
+            "Fisika",
+            "Biologi",
+            "Kimia",
+            "Sejarah",
+            "Geografi",
+            "Bahasa Indonesia",
+            "Bahasa Inggris"
+        ];
+        
+        // Question Database by Category
+        const questionDatabase = {
+            "Matematika": [
+                {
+                    question: "Berapakah hasil dari 7 × 8?",
+                    options: ["54", "56", "64", "49"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Jika x + 3 = 10, berapakah nilai x?",
+                    options: ["5", "7", "13", "3"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Berapakah akar kuadrat dari 144?",
+                    options: ["12", "14", "16", "24"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Rumus luas lingkaran adalah...",
+                    options: ["πr", "2πr", "πr²", "πd"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Berapa derajat jumlah sudut dalam segitiga?",
+                    options: ["90°", "180°", "270°", "360°"],
+                    correctIndex: 1
+                }
+            ],
+            "Informatika": [
+                {
+                    question: "Apakah singkatan dari HTML?",
+                    options: ["Hyper Text Markup Language", "High Tech Modern Language", "Hyper Transfer Markup Language", "Home Tool Markup Language"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Bahasa pemrograman mana yang sering digunakan untuk pengembangan web bagian depan (front-end)?",
+                    options: ["Java", "Python", "JavaScript", "C++"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Apa itu algoritma?",
+                    options: ["Bahasa pemrograman", "Sistem operasi", "Langkah-langkah untuk menyelesaikan masalah", "Jenis komputer"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Dalam jaringan komputer, apa yang dimaksud dengan IP?",
+                    options: ["Internet Protocol", "Internal Processing", "Information Provider", "Identity Protection"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Apa fungsi utama dari sistem operasi?",
+                    options: ["Mengembangkan aplikasi", "Mengelola perangkat keras dan sumber daya komputer", "Menghapus virus", "Mempercepat internet"],
+                    correctIndex: 1
+                }
+            ],
+            "IPA": [
+                {
+                    question: "Proses perubahan wujud dari gas menjadi cair disebut...",
+                    options: ["Mencair", "Menguap", "Menyublim", "Mengembun"],
+                    correctIndex: 3
+                },
+                {
+                    question: "Hewan mana yang termasuk mamalia?",
+                    options: ["Buaya", "Paus", "Ular", "Ikan hiu"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Organ yang berfungsi untuk menyaring darah adalah...",
+                    options: ["Jantung", "Hati", "Ginjal", "Paru-paru"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Satuan dasar panjang dalam sistem internasional adalah...",
+                    options: ["Meter", "Kilogram", "Detik", "Ampere"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Proses fotosintesis pada tumbuhan mengubah...",
+                    options: ["Karbohidrat menjadi energi", "Air dan karbon dioksida menjadi glukosa dan oksigen", "Oksigen menjadi karbon dioksida", "Protein menjadi lemak"],
+                    correctIndex: 1
+                }
+            ],
+            "IPS": [
+                {
+                    question: "Ibukota Indonesia adalah...",
+                    options: ["Jakarta", "Bandung", "Surabaya", "Jogjakarta"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Peristiwa Proklamasi Kemerdekaan Indonesia terjadi pada tanggal...",
+                    options: ["17 Agustus 1945", "1 Juni 1945", "17 Agustus 1949", "1 Juni 1949"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Benua terbesar di dunia adalah...",
+                    options: ["Amerika", "Afrika", "Eropa", "Asia"],
+                    correctIndex: 3
+                },
+                {
+                    question: "Tokoh yang dijuluki sebagai Bapak Pendidikan Indonesia adalah...",
+                    options: ["Soekarno", "Mohammad Hatta", "Ki Hajar Dewantara", "R.A. Kartini"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Laut terluas di dunia adalah...",
+                    options: ["Laut Mediterania", "Laut Karibia", "Samudera Pasifik", "Laut Cina Selatan"],
+                    correctIndex: 2
+                }
+            ],
+            "Fisika": [
+                {
+                    question: "Satuan dasar untuk mengukur gaya adalah...",
+                    options: ["Watt", "Joule", "Newton", "Pascal"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Rumus energi potensial adalah...",
+                    options: ["E = mc²", "E = mgh", "F = ma", "P = mv"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Cahaya bergerak dalam bentuk...",
+                    options: ["Partikel saja", "Gelombang saja", "Partikel dan gelombang", "Tidak bergerak"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Alat yang digunakan untuk mengukur tekanan udara disebut...",
+                    options: ["Termometer", "Barometer", "Anemometer", "Hidrometer"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Hukum Newton yang ketiga adalah...",
+                    options: ["Hukum kelembaman", "Hukum percepatan", "Hukum aksi-reaksi", "Hukum gravitasi"],
+                    correctIndex: 2
+                }
+            ],
+            "Biologi": [
+                {
+                    question: "Organela sel yang berfungsi untuk sintesis protein adalah...",
+                    options: ["Nukleus", "Mitokondria", "Ribosom", "Lisosom"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Sistem pernapasan manusia terdiri dari...",
+                    options: ["Hidung, faring, laring, trakea, paru-paru", "Mulut, kerongkongan, lambung, usus", "Jantung, pembuluh darah, darah", "Ginjal, ureter, kandung kemih"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Bagian tumbuhan yang berfungsi untuk fotosintesis adalah...",
+                    options: ["Akar", "Batang", "Daun", "Bunga"],
+                    correctIndex: 2
+                },
+                {
+                    question: "DNA adalah singkatan dari...",
+                    options: ["Deoxyribose Nucleic Acid", "Dioxy Nucleic Acid", "Deoxyribose Nitrogen Acid", "Dioxy Nitrogen Acid"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Proses pembelahan sel yang menghasilkan sel dengan jumlah kromosom setengah dari sel induk disebut...",
+                    options: ["Mitosis", "Meiosis", "Sitokinesis", "Replikasi"],
+                    correctIndex: 1
+                }
+            ],
+            "Kimia": [
+                {
+                    question: "Unsur kimia dengan simbol Fe adalah...",
+                    options: ["Fosfor", "Fluor", "Ferrum (Besi)", "Kalium"],
+                    correctIndex: 2
+                },
+                {
+                    question: "pH larutan asam berada pada rentang...",
+                    options: ["0-7", "7", "7-14", "14"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Reaksi kimia yang melepaskan panas disebut...",
+                    options: ["Reaksi endoterm", "Reaksi eksoterm", "Reaksi redoks", "Reaksi penetralan"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Gas yang dibutuhkan dalam proses fotosintesis adalah...",
+                    options: ["Oksigen", "Nitrogen", "Karbon dioksida", "Hidrogen"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Rumus kimia air adalah...",
+                    options: ["H₂O", "CO₂", "O₂", "N₂"],
+                    correctIndex: 0
+                }
+            ],
+            "Sejarah": [
+                {
+                    question: "Kerajaan Hindu terbesar di Indonesia adalah...",
+                    options: ["Sriwijaya", "Majapahit", "Tarumanegara", "Singasari"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Perang Dunia II berakhir pada tahun...",
+                    options: ["1918", "1939", "1945", "1950"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Tokoh yang mengembangkan teori relativitas adalah...",
+                    options: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Konferensi Asia Afrika pertama dilaksanakan di...",
+                    options: ["Bandung", "Jakarta", "Surabaya", "Yogyakarta"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Siapakah penemu mesin uap?",
+                    options: ["Thomas Edison", "Galileo Galilei", "James Watt", "Alexander Graham Bell"],
+                    correctIndex: 2
+                }
+            ],
+            "Geografi": [
+                {
+                    question: "Negara dengan penduduk terbanyak di dunia adalah...",
+                    options: ["India", "Amerika Serikat", "China", "Indonesia"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Gunung tertinggi di dunia adalah...",
+                    options: ["Gunung Everest", "Gunung Kilimanjaro", "Gunung Fuji", "Gunung K2"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Sungai terpanjang di dunia adalah...",
+                    options: ["Sungai Amazon", "Sungai Nil", "Sungai Yangtze", "Sungai Mississippi"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Laut terdalam di dunia adalah...",
+                    options: ["Laut Mediterania", "Laut Karibia", "Laut Mariana", "Laut Merah"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Indonesia terdiri dari berapa pulau?",
+                    options: ["Sekitar 13.000", "Sekitar 17.000", "Sekitar 7.000", "Sekitar 21.000"],
+                    correctIndex: 1
+                }
+            ],
+            "Bahasa Indonesia": [
+                {
+                    question: "Kalimat yang diakhiri dengan tanda seru (!) disebut kalimat...",
+                    options: ["Berita", "Tanya", "Perintah", "Seru"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Antonim dari kata 'kikir' adalah...",
+                    options: ["Pelit", "Boros", "Dermawan", "Hemat"],
+                    correctIndex: 2
+                },
+                {
+                    question: "Karya sastra yang menceritakan kehidupan seseorang disebut...",
+                    options: ["Novel", "Biografi", "Cerpen", "Drama"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Puisi lama yang terdiri dari empat baris dan bersajak a-b-a-b disebut...",
+                    options: ["Pantun", "Syair", "Gurindam", "Talibun"],
+                    correctIndex: 0
+                },
+                {
+                    question: "Gabungan kata yang sudah padu dan dianggap sebagai satu kata disebut...",
+                    options: ["Frasa", "Klausa", "Kata majemuk", "Kata ulang"],
+                    correctIndex: 2
+                }
+            ],
+            "Bahasa Inggris": [
+                {
+                    question: "Which of the following is a correct sentence?",
+                    options: ["She don't like coffee", "She doesn't likes coffee", "She doesn't like coffee", "She not like coffee"],
+                    correctIndex: 2
+                },
+                {
+                    question: "The past tense of 'swim' is...",
+                    options: ["Swam", "Swum", "Swimmed", "Swimming"],
+                    correctIndex: 0
+                },
+                {
+                    question: "What is the correct spelling?",
+                    options: ["Accomodate", "Accommodate", "Acommodate", "Accomadate"],
+                    correctIndex: 1
+                },
+                {
+                    question: "Choose the correct word: 'She is ___ than her sister.'",
+                    options: ["tall", "taller", "tallest", "more taller"],
+                    correctIndex: 1
+                },
+                {
+                    question: "What is the plural form of 'child'?",
+                    options: ["Childs", "Childes", "Children", "Childrens"],
+                    correctIndex: 2
+                }
+            ]
+        };
+        
+        // Event Listeners
+        multiplayerBtn.addEventListener('click', showLoginModal);
+        singleplayerBtn.addEventListener('click', showLoginModal);
+        submitUsernameBtn.addEventListener('click', handleUsernameSubmit);
+        startGameBtn.addEventListener('click', startGame);
+        nextBtn.addEventListener('click', loadNextQuestion);
+        restartBtn.addEventListener('click', restartQuiz);
+        homeBtn.addEventListener('click', backToHome);
+        signInBtn.addEventListener('click', showLoginModal);
+        
+        // Multiplayer functions
+        function showLoginModal() {
+            loginModal.classList.remove('hidden');
+        }
+        
+        function hideLoginModal() {
+            loginModal.classList.add('hidden');
+        }
+        
+        function showPinModal() {
+            pinModal.classList.remove('hidden');
+            // Generate a random 6-digit PIN
+            gamePin = Math.floor(100000 + Math.random() * 900000).toString();
+            roomPinDisplay.textContent = gamePin;
+        }
+        
+        function hidePinModal() {
+            pinModal.classList.add('hidden');
+        }
+        
+        function showLoadingModal() {
+            loadingModal.classList.remove('hidden');
+        }
+        
+        function hideLoadingModal() {
+            loadingModal.classList.add('hidden');
+        }
+        
+        function handleUsernameSubmit() {
+            username = usernameInput.value.trim();
+            if (username) {
+                hideLoginModal();
+                if (event.target === multiplayerBtn) {
+                    showPinModal();
+                } else {
+                    startGame();
+                }
+            }
+        }
+        
+        // Quiz functions
+        function startGame() {
+            hidePinModal();
+            showLoadingModal();
+            
+            // Simulate loading
+            setTimeout(() => {
+                hideLoadingModal();
+                mainContainer.classList.add('hidden');
+                quizContainer.classList.remove('hidden');
+                
+                // Initialize a new quiz
+                const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+                currentQuiz = {
+                    category: randomCategory,
+                    questions: questionDatabase[randomCategory].sort(() => Math.random() - 0.5).slice(0, 10)
+                };
+                
+                currentQuestionIndex = 0;
+                score = 0;
+                hasAnswered = false;
+                
+                // Update UI
+                categoryDisplay.textContent = `Category: ${currentQuiz.category}`;
+                scoreDisplay.textContent = `Score: ${score}`;
+                
+                // Load first question
+                loadQuestion();
+            }, 1500);
+        }
+        
+        function loadQuestion() {
+            const question = currentQuiz.questions[currentQuestionIndex];
+            hasAnswered = false;
+            
+            // Update UI
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuiz.questions.length}`;
+            questionText.textContent = question.question;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add options
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                optionElement.dataset.index = index;
+                optionElement.addEventListener('click', checkAnswer);
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            // Hide feedback and next button
+            feedbackDisplay.classList.add('hidden');
+            nextBtn.classList.add('hidden');
+            
+            // Reset and start timer
+            timeLeft = 30;
+            timerDisplay.textContent = timeLeft;
+            if (timer) clearInterval(timer);
+            timer = setInterval(() => {
+                timeLeft--;
+                timerDisplay.textContent = timeLeft;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    handleTimeUp();
+                }
+            }, 1000);
+        }
+        
+        function checkAnswer(event) {
+            if (hasAnswered) return;
+            
+            hasAnswered = true;
+            clearInterval(timer);
+            
+            const selectedIndex = parseInt(event.target.dataset.index);
+            const correctIndex = currentQuiz.questions[currentQuestionIndex].correctIndex;
+            
+            // Highlight correct and wrong answers
+            Array.from(optionsContainer.children).forEach((option, index) => {
+                if (index === correctIndex) {
+                    option.classList.add('correct');
+                } else if (index === selectedIndex) {
+                    option.classList.add('selected');
+                    if (selectedIndex !== correctIndex) {
+                        option.classList.add('incorrect');
+                    }
+                }
+            });
+            
+            // Update score and feedback
+            if (selectedIndex === correctIndex) {
+                score++;
+                scoreDisplay.textContent = `Score: ${score}`;
+                feedbackDisplay.textContent = 'Correct!';
+                feedbackDisplay.style.color = '#4CAF50';
+            } else {
+                feedbackDisplay.textContent = 'Wrong!';
+                feedbackDisplay.style.color = '#ff7676';
+            }
+            
+            feedbackDisplay.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            
+            // Auto-proceed if it's the last question
+            if (currentQuestionIndex === currentQuiz.questions.length - 1) {
+                nextBtn.textContent = 'See Results';
+            }
+        }
+        
+        function handleTimeUp() {
+            hasAnswered = true;
+            
+            // Highlight the correct answer
+            const correctIndex = currentQuiz.questions[currentQuestionIndex].correctIndex;
+            Array.from(optionsContainer.children).forEach((option, index) => {
+                if (index === correctIndex) {
+                    option.classList.add('correct');
+                }
+            });
+            
+            feedbackDisplay.textContent = 'Time\'s up!';
+            feedbackDisplay.style.color = '#ff7676';
+            feedbackDisplay.classList.remove('hidden');
+            nextBtn.classList.remove('hidden');
+            
+            // Auto-proceed if it's the last question
+            if (currentQuestionIndex === currentQuiz.questions.length - 1) {
+                nextBtn.textContent = 'See Results';
+            }
+        }
+        
+        function loadNextQuestion() {
+            currentQuestionIndex++;
+            
+            if (currentQuestionIndex < currentQuiz.questions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            
+            finalScore.textContent = `${score}/${currentQuiz.questions.length}`;
+            
+            // Set appropriate message
+            const percentage = (score / currentQuiz.questions.length) * 100;
+            if (percentage >= 80) {
+                resultsMessage.textContent = 'Excellent! You\'re a quiz master!';
+            } else if (percentage >= 60) {
+                resultsMessage.textContent = 'Good job! Keep practicing!';
+            } else if (percentage >= 40) {
+                resultsMessage.textContent = 'Not bad, but you can do better!';
+            } else {
+                resultsMessage.textContent = 'Keep studying and try again!';
+            }
+        }
+        
+        function restartQuiz() {
+            resultsContainer.classList.add('hidden');
+            startGame();
+        }
+        
+        function backToHome() {
+            resultsContainer.classList.add('hidden');
+            mainContainer.classList.remove('hidden');
+            nextBtn.textContent = 'Next Question';
+        }
+    </script>
+</body>
+</html>
