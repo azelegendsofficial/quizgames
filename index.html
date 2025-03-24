@@ -454,217 +454,100 @@
         }
     </style>
     <style>
-/* Updated Modal Styles */
-.modal2 {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    z-index: 1000;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(5px);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.modal.show2 {
-    display: flex;
-    opacity: 1;
-}
-
-.modal-content2 {
-    position: relative;
-    width: 90%;
-    max-width: 500px;
-    background: var(--surface);
-    border-radius: 20px;
-    padding: 30px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    transform: translateY(20px);
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    border: 1px solid rgba(99, 102, 241, 0.1);
-    overflow: hidden;
-}
-
-.modal.show .modal-content2 {
-    transform: translateY(0);
-}
-
-.modal-header2 {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    padding-bottom: 15px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.modal-icon2 {
-    width: 50px;
-    height: 50px;
-    background: var(--primary);
-    color: white;
-    border-radius: 12px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.5rem;
-    margin-right: 15px;
-    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
-}
-
-.modal-header h22 {
-    margin: 0;
-    color: var(--dark);
-    font-size: 1.8rem;
-}
-
-.modal-body2 {
-    margin-bottom: 25px;
-}
-
-.update-message2 {
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-    color: var(--dark);
-}
-
-.update-features2 {
-    background: var(--surface-2);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 25px;
-}
-
-.update-feature-item2 {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.update-feature-item2:last-child {
-    margin-bottom: 0;
-}
-
-.update-feature-item i2 {
-    color: var(--success, #22c55e);
-    margin-right: 10px;
-    font-size: 1.1rem;
-}
-
-.update-progress2 {
-    margin-top: 20px;
-}
-
-.progress-label2 {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 8px;
-    font-size: 0.9rem;
-    color: #64748b;
-}
-
-.progress-bar-container2 {
-    width: 100%;
-    height: 10px;
-    background: var(--surface-2);
-    border-radius: 5px;
-    overflow: hidden;
-    margin-bottom: 5px;
-}
-
-.progress-bar2 {
-    height: 100%;
-    width: 0%;
-    background: var(--gradient-1, linear-gradient(135deg, #6366f1, #8b5cf6));
-    border-radius: 5px;
-    transition: width 0.3s ease;
-}
-
-.progress-percentage2 {
-    text-align: center;
-    font-size: 0.9rem;
-    color: #64748b;
-}
-
-.modal-footer2 {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-}
-
-.modal-btn2 {
-    padding: 12px 24px;
-    border-radius: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s;
-    border: none;
-    font-size: 1rem;
-}
-
-.primary-btn2 {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
-}
-
-.primary-btn2:hover {
-    background: var(--accent);
-    transform: translateY(-3px);
-    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
-}
-
-.secondary-btn2 {
-    background: var(--surface-2);
-    color: #64748b;
-}
-
-.secondary-btn2:hover {
-    background: #e2e8f0;
-    color: var(--dark);
-}
-
-/* Dark mode adjustments */
-.dark-mode .modal-content2 {
-    background: #1e293b;
-}
-
-.dark-mode .update-features2 {
-    background: #0f172a;
-}
-
-.dark-mode .update-message2,
-.dark-mode .modal-header h22 {
-    color: #f9fafb;
-}
-
-.dark-mode .secondary-btn2 {
-    background: #0f172a;
-    color: #cbd5e1;
-}
-
-.dark-mode .secondary-btn2:hover {
-    background: #1e293b;
-    color: #f9fafb;
-}
-
-.dark-mode .progress-bar-container2 {
-    background: #0f172a;
-}
-
-/* Animation for the update icon */
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-.updating .modal-icon i2 {
-    animation: spin 1.5s linear infinite;
-}
+.notification-toast {
+            position: relative;
+            max-width: 450px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            animation: slideIn 0.3s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .notification-header {
+            background: linear-gradient(135deg, #6e57e0 0%, #9c57e0 100%);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .notification-header h3 {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .notification-badge {
+            background-color: #ff5768;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 12px;
+        }
+        .notification-content {
+            padding: 16px;
+        }
+        .update-summary {
+            margin-bottom: 12px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .update-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .feature-tag {
+            font-size: 12px;
+            background-color: #f0f0f7;
+            color: #6e57e0;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .notification-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+        }
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background-color: #6e57e0;
+            color: white;
+        }
+        .btn-secondary {
+            background-color: #f0f0f7;
+            color: #666;
+        }
+        .btn:hover {
+            opacity: 0.9;
+        }
+        .close-btn {
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 18px;
+            cursor: pointer;
+            padding: 0;
+            margin: 0;
+        }
+        .close-btn:hover {
+            color: white;
+        }
 </style>
 </head>
 <body>
@@ -680,6 +563,37 @@
                 <button class="sign-in-btn">Sign in</button>
             </div>
         </header>
+
+        <div class="notification-toast">
+        <div class="notification-header">
+            <div style="display: flex; align-items: center; gap: 8px;">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M9.5 16C13.6421 16 17 12.6421 17 8.5C17 4.35786 13.6421 1 9.5 1C5.35786 1 2 4.35786 2 8.5C2 12.6421 5.35786 16 9.5 16Z" fill="white"/>
+                    <path d="M9.5 16V23L12.5 20H19.5C20.6046 20 21.5 19.1046 21.5 18V11C21.5 9.89543 20.6046 9 19.5 9H17" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <h3>QuizGame Update Available</h3>
+            </div>
+            <span class="notification-badge">v2.5.0</span>
+            <button class="close-btn">&times;</button>
+        </div>
+        <div class="notification-content">
+            <div class="update-summary">
+                We've just released a major update with new features, bug fixes, and performance improvements to enhance your quiz experience!
+            </div>
+            <div class="update-features">
+                <span class="feature-tag">Custom Questions</span>
+                <span class="feature-tag">UI Improvements</span>
+                <span class="feature-tag">Multiplayer</span>
+                <span class="feature-tag">Bug Fixes</span>
+                <span class="feature-tag">Stats & Analytics</span>
+                <span class="feature-tag">Achievements</span>
+            </div>
+            <div class="notification-actions">
+                <button class="btn btn-primary">Update Now</button>
+                <button class="btn btn-secondary">See Details</button>
+            </div>
+        </div>
+    </div>
         
         <div class="game-modes">
             <div class="mode-card">
