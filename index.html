@@ -1315,74 +1315,102 @@
         });
 </script>
 <script>
-// Update Modal Functionality
-const updateModal = document.getElementById('updateModal');
-const updateBtn = document.getElementById('updateBtn');
-const laterBtn = document.getElementById('laterBtn');
-const closeUpdateModal = updateModal.querySelector('.close-modal');
-const progressBar = document.getElementById('updateProgressBar');
-const progressPercentage = document.querySelector('.progress-percentage');
-
-// Function to open the update modal
-function showUpdateModal() {
-    updateModal.classList.add('show');
-}
-
-// Close modal functions
-function closeUpdateModal() {
-    updateModal.classList.remove('show');
-    // Reset progress if needed
-    progressBar.style.width = '0%';
-    progressPercentage.textContent = '0%';
-    updateModal.classList.remove('updating');
-    updateBtn.textContent = 'Update Now';
-    updateBtn.disabled = false;
-}
-
-closeUpdateModal.addEventListener('click', () => {
-    closeUpdateModal();
-});
-
-laterBtn.addEventListener('click', () => {
-    closeUpdateModal();
-});
-
-// Update process simulation
-updateBtn.addEventListener('click', () => {
-    updateModal.classList.add('updating');
-    updateBtn.textContent = 'Updating...';
-    updateBtn.disabled = true;
+// Script to handle button clicks in the update notification
+document.addEventListener('DOMContentLoaded', function() {
+  // Get references to the buttons
+  const updateNowButton = document.querySelector('.btn-primary');
+  const seeDetailsButton = document.querySelector('.btn-secondary');
+  const closeButton = document.querySelector('.close-btn');
+  
+  // URL configurations
+  const updateURL = "https://quizgame.com/download/latest";
+  const detailsURL = "https://quizgame.com/update/v2.5.0/details";
+  
+  // Add click event listener for Update Now button
+  if (updateNowButton) {
+    updateNowButton.addEventListener('click', function() {
+      console.log("Redirecting to update page...");
+      // Redirect to the update page
+      window.location.href = updateURL;
+    });
+  }
+  
+  // Add click event listener for See Details button
+  if (seeDetailsButton) {
+    seeDetailsButton.addEventListener('click', function() {
+      console.log("Redirecting to details page...");
+      // Redirect to the details page
+      window.location.href = detailsURL;
+    });
+  }
+  
+  // Add click event listener for Close button
+  if (closeButton) {
+    closeButton.addEventListener('click', function() {
+      console.log("Closing notification...");
+      // Get the notification toast element
+      const notificationToast = document.querySelector('.notification-toast');
+      
+      // Add a fade-out animation class
+      notificationToast.style.animation = 'fadeOut 0.3s ease-out forwards';
+      
+      // Remove the notification after animation completes
+      setTimeout(function() {
+        notificationToast.style.display = 'none';
+        // If you want to completely remove it from DOM:
+        // notificationToast.parentNode.removeChild(notificationToast);
+      }, 300);
+    });
+  }
+  
+  // Add CSS for fade-out animation
+  const style = document.createElement('style');
+  style.innerHTML = `
+    @keyframes fadeOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(-20px); }
+    }
+  `;
+  document.head.appendChild(style);
+  
+  // Optional: Track notification interaction
+  function trackInteraction(action) {
+    // This function could send analytics data about user interaction
+    // Example: send data to analytics service
+    console.log(`User action tracked: ${action}`);
     
-    let progress = 0;
-    const interval = setInterval(() => {
-        progress += Math.floor(Math.random() * 5) + 1;
-        if (progress > 100) progress = 100;
-        
-        progressBar.style.width = `${progress}%`;
-        progressPercentage.textContent = `${progress}%`;
-        
-        if (progress === 100) {
-            clearInterval(interval);
-            setTimeout(() => {
-                updateBtn.textContent = 'Restart App';
-                updateBtn.disabled = false;
-                updateModal.classList.remove('updating');
-                
-                // Add event listener for restart button
-                updateBtn.addEventListener('click', () => {
-                    closeUpdateModal();
-                    // In a real app, you would reload the application here
-                    showNotification('Update Complete', 'Quiz Game Pro has been updated to version 2.5.0');
-                }, { once: true });
-            }, 1000);
-        }
-    }, 200);
+    // Example implementation (replace with actual analytics code)
+    if (typeof analytics !== 'undefined') {
+      analytics.track('Update Notification', {
+        action: action,
+        version: 'v2.5.0',
+        timestamp: new Date().toISOString()
+      });
+    }
+  }
+  
+  // Add tracking to buttons
+  if (updateNowButton) {
+    updateNowButton.addEventListener('click', function() {
+      trackInteraction('update_now_clicked');
+    });
+  }
+  
+  if (seeDetailsButton) {
+    seeDetailsButton.addEventListener('click', function() {
+      trackInteraction('see_details_clicked');
+    });
+  }
+  
+  if (closeButton) {
+    closeButton.addEventListener('click', function() {
+      trackInteraction('notification_dismissed');
+    });
+  }
+  
+  // Log that notification was displayed
+  trackInteraction('notification_displayed');
 });
-
-// Auto-show the update modal after some time (for demo purposes)
-setTimeout(() => {
-    showUpdateModal();
-}, 15000); // Show after 15 seconds
 </script>
 </body>
 </html>
