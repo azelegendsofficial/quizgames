@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site Maintenance - QuizGame</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #6e57e0 0%, #9c57e0 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error-container {
+            max-width: 500px;
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+            padding-bottom: 30px;
+        }
+        .error-header {
+            padding: 20px;
+            position: relative;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+        .logo-text {
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .logo-quiz {
+            color: #6e57e0;
+        }
+        .logo-game {
+            color: #ff5768;
+        }
+        .pro-badge {
+            background-color: #ff5768;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 12px;
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+        .error-content {
+            padding: 0 30px;
+        }
+        .error-image {
+            margin: 20px 0;
+            position: relative;
+        }
+        .maintenance-code {
+            font-size: 32px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #6e57e0 0%, #9c57e0 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            line-height: 1;
+            margin: 0;
+            text-shadow: 2px 2px 10px rgba(108, 99, 255, 0.2);
+        }
+        .maintenance-image {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .maintenance-image svg {
+            width: 160px;
+            height: 160px;
+        }
+        .error-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin: 20px 0 10px;
+            color: #333;
+        }
+        .error-message {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+        .error-suggestions {
+            background-color: #f5f5fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+        .error-suggestions h3 {
+            font-size: 16px;
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #6e57e0;
+        }
+        .countdown {
+            font-size: 18px;
+            font-weight: bold;
+            color: #6e57e0;
+            margin: 15px 0;
+        }
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #f5f5fa;
+            transition: all 0.2s;
+        }
+        .social-links a:hover {
+            background-color: #e0e0ea;
+            transform: translateY(-2px);
+        }
+        .social-links svg {
+            width: 20px;
+            height: 20px;
+            fill: #6e57e0;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #6e57e0;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn:hover {
+            background-color: #5a46c7;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(110, 87, 224, 0.3);
+        }
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid #6e57e0;
+            color: #6e57e0;
+        }
+        .btn-outline:hover {
+            background-color: #f5f5fa;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-container">
+        <div class="error-header">
+            <div class="pro-badge">PRO</div>
+            <div class="logo">
+                <span class="logo-text"><span class="logo-quiz">Quiz</span><span class="logo-game">Game</span></span>
+            </div>
+        </div>
+        <div class="error-content">
+            <div class="maintenance-image">
+                <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" stroke="#6e57e0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </div>
+            <p class="maintenance-code">SCHEDULED MAINTENANCE</p>
+            <h2 class="error-title">We're Upgrading QuizGame!</h2>
+            <p class="error-message">Our team is currently performing scheduled maintenance to bring you new features and improvements. We'll be back online shortly with an even better quiz experience!</p>
+            
+            <div class="error-suggestions">
+                <h3>What's happening:</h3>
+                <ul>
+                    <li>System upgrade to improve performance</li>
+                    <li>Adding new quiz categories and features</li>
+                    <li>Enhancing security and user experience</li>
+                    <li>Estimated completion: <span id="completion-time">Today at 3:00 PM</span></li>
+                </ul>
+            </div>
+            
+            <div class="countdown" id="countdown">Estimated time remaining: 2 hours 35 minutes</div>
+            
+            <div class="social-links">
+                <a href="https://twitter.com/quizgame" target="_blank">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
+                    </svg>
+                </a>
+                <a href="https://instagram.com/quizgame" target="_blank">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                        <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                        <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                    </svg>
+                </a>
+                <a href="https://discord.gg/quizgame" target="_blank">
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3847-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/>
+                    </svg>
+                </a>
+            </div>
+            
+            <div class="btn-group">
+                <a href="javascript:void(0)" class="btn btn-outline" id="notifyBtn">Notify Me When Live</a>
+                <a href="https://status.quizgame.com" class="btn">Check Status Page</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const notifyButton = document.querySelector('#notifyBtn');
+            const statusButton = document.querySelector('.btn:not(.btn-outline)');
+            
+            // Update countdown dynamically
+            function updateCountdown() {
+                const now = new Date();
+                const endTime = new Date();
+                endTime.setHours(15, 0, 0, 0); // 3:00 PM today
+                
+                const diff = endTime - now;
+                if (diff <= 0) {
+                    document.getElementById('countdown').textContent = 'Maintenance almost complete!';
+                    return;
+                }
+                
+                const hours = Math.floor(diff / (1000 * 60 * 60));
+                const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                
+                document.getElementById('countdown').textContent = 
+                    `Estimated time remaining: ${hours} hour${hours !== 1 ? 's' : ''} ${minutes} minute${minutes !== 1 ? 's' : ''}`;
+            }
+            
+            updateCountdown();
+            setInterval(updateCountdown, 60000); // Update every minute
+            
+            notifyButton.addEventListener('click', function() {
+                alert('We\'ll notify you when QuizGame is back online!');
+                notifyButton.textContent = 'Notification Set';
+                notifyButton.classList.add('btn-outline');
+            });
+            
+            statusButton.addEventListener('click', function(e) {
+                e.preventDefault();
+                window.open('https://status.quizgame.com', '_blank');
+            });
+            
+            // Track maintenance page view
+            console.log("Maintenance page viewed");
+            
+            // Optional: Track with analytics service
+            if (typeof analytics !== 'undefined') {
+                analytics.track('Maintenance Page Viewed', {
+                    timestamp: new Date().toISOString()
+                });
+            }
+        });
+    </script>
+</body>
+</html>
