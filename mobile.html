@@ -936,14 +936,66 @@
         };
         
         // Event Listeners
-        multiplayerBtn.addEventListener('click', showLoginModal);
-        singleplayerBtn.addEventListener('click', showLoginModal);
-        submitUsernameBtn.addEventListener('click', handleUsernameSubmit);
-        startGameBtn.addEventListener('click', startGame);
-        nextBtn.addEventListener('click', loadNextQuestion);
-        restartBtn.addEventListener('click', restartQuiz);
-        homeBtn.addEventListener('click', backToHome);
-        signInBtn.addEventListener('click', showLoginModal);
+        multiplayerBtn.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+            sessionStorage.setItem('gameMode', 'multiplayer');
+        });
+        
+        singleplayerBtn.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+            sessionStorage.setItem('gameMode', 'singleplayer');
+        });
+        
+        signInBtn.addEventListener('click', () => {
+            loginModal.classList.remove('hidden');
+        });
+        
+        submitUsernameBtn.addEventListener('click', () => {
+            username = usernameInput.value.trim();
+            if (username === '') {
+                alert('Please enter your name!');
+                return;
+            }
+            
+            loginModal.classList.add('hidden');
+            
+            const gameMode = sessionStorage.getItem('gameMode');
+            if (gameMode === 'multiplayer') {
+                // Generate a random 6-digit PIN
+                gamePin = Math.floor(100000 + Math.random() * 900000).toString();
+                roomPinDisplay.textContent = gamePin;
+                pinModal.classList.remove('hidden');
+            } else {
+                // Start singleplayer game
+                startGame();
+            }
+        });
+        
+        startGameBtn.addEventListener('click', () => {
+            pinModal.classList.add('hidden');
+            startGame();
+        });
+        
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < currentQuiz.length - 1) {
+                currentQuestionIndex++;
+                renderQuestion();
+            } else {
+                showResults();
+            }
+        });
+        
+        restartBtn.addEventListener('click', () => {
+            resultsContainer.classList.add('hidden');
+            startGame();
+        });
+        
+        homeBtn.addEventListener('click', () => {
+            resultsContainer.classList.add('hidden');
+            quizContainer.classList.add('hidden');
+            mainContainer.classList.remove('hidden');
+            resetGame();
+        });
         
         // Multiplayer functions
         function showLoginModal() {
