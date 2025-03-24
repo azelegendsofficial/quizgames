@@ -551,8 +551,20 @@
 </style>
 </head>
 <body>
+    <div class="container" id="main-container">
+        <header>
+            <div class="logo">Quiz<span>Game</span></div>
+            <div class="pin-input">
+                <label for="joinPin">Join Game? Enter PIN:</label>
+                <input type="text" id="joinPin" placeholder="123 456">
+            </div>
+            <div class="user-actions">
+                <button class="search-btn">🔍</button>
+                <button class="sign-in-btn">Sign in</button>
+            </div>
+        </header>
 
-    <div class="notification-toast">
+        <div class="notification-toast">
         <div class="notification-header">
             <div style="display: flex; align-items: center; gap: 8px;">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -582,19 +594,6 @@
             </div>
         </div>
     </div>
-    
-    <div class="container" id="main-container">
-        <header>
-            <div class="logo">Quiz<span>Game</span></div>
-            <div class="pin-input">
-                <label for="joinPin">Join Game? Enter PIN:</label>
-                <input type="text" id="joinPin" placeholder="123 456">
-            </div>
-            <div class="user-actions">
-                <button class="search-btn">🔍</button>
-                <button class="sign-in-btn">Sign in</button>
-            </div>
-        </header>
         
         <div class="game-modes">
             <div class="mode-card">
