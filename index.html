@@ -454,145 +454,217 @@
         }
     </style>
     <style>
-    .update-modal {
-        max-width: 500px;
-        padding: 0;
-        border-radius: 15px;
-        overflow: hidden;
-        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    }
-    
-    .update-header {
-        background: linear-gradient(135deg, #5367e1, #a777e3);
-        color: white;
-        padding: 20px;
-        position: relative;
-        display: flex;
-        align-items: center;
-    }
-    
-    .update-badge {
-        background-color: #ff7676;
-        color: white;
-        padding: 5px 10px;
-        border-radius: 20px;
-        font-size: 0.8rem;
-        font-weight: bold;
-        margin-right: 15px;
-    }
-    
-    .update-header h2 {
-        margin: 0;
-        flex-grow: 1;
-    }
-    
-    .close-btn {
-        font-size: 1.5rem;
-        cursor: pointer;
-    }
-    
-    .update-body {
-        padding: 30px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .update-icon {
-        font-size: 3rem;
-        margin-bottom: 20px;
-    }
-    
-    .update-features h3 {
-        color: #5367e1;
-        margin-bottom: 15px;
-        text-align: center;
-    }
-    
-    .update-features ul {
-        list-style: none;
-        padding: 0;
-    }
-    
-    .update-features li {
-        display: flex;
-        margin-bottom: 20px;
-        align-items: flex-start;
-    }
-    
-    .feature-icon {
-        background: #f0f3ff;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-right: 15px;
-        font-size: 1.2rem;
-    }
-    
-    .feature-info {
-        flex-grow: 1;
-    }
-    
-    .feature-info strong {
-        display: block;
-        margin-bottom: 5px;
-        color: #333;
-    }
-    
-    .feature-info p {
-        margin: 0;
-        color: #666;
-        font-size: 0.9rem;
-    }
-    
-    .update-footer {
-        padding: 15px 20px;
-        background: #f5f5f5;
-        display: flex;
-        justify-content: space-between;
-    }
-    
-    .update-footer button {
-        padding: 10px 20px;
-        border-radius: 20px;
-        border: none;
-        cursor: pointer;
-        font-weight: 500;
-        transition: all 0.3s ease;
-    }
-    
-    #updateDetailsBtn {
-        background: transparent;
-        color: #5367e1;
-    }
-    
-    #updateDetailsBtn:hover {
-        background: #eaeaea;
-    }
-    
-    .primary-btn {
-        background: #5367e1;
-        color: white;
-    }
-    
-    .primary-btn:hover {
-        background: #4355c7;
-        transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(83, 103, 225, 0.3);
-    }
+/* Updated Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
 
-    /* Animation for the modal */
-    @keyframes slideDown {
-        from { transform: translateY(-50px); opacity: 0; }
-        to { transform: translateY(0); opacity: 1; }
-    }
-    
-    #updateModal .modal-content {
-        animation: slideDown 0.5s ease forwards;
-    }
+.modal.show {
+    display: flex;
+    opacity: 1;
+}
+
+.modal-content {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    transform: translateY(20px);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(99, 102, 241, 0.1);
+    overflow: hidden;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.modal-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    margin-right: 15px;
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+}
+
+.modal-header h2 {
+    margin: 0;
+    color: var(--dark);
+    font-size: 1.8rem;
+}
+
+.modal-body {
+    margin-bottom: 25px;
+}
+
+.update-message {
+    font-size: 1.1rem;
+    margin-bottom: 20px;
+    color: var(--dark);
+}
+
+.update-features {
+    background: var(--surface-2);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+}
+
+.update-feature-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.update-feature-item:last-child {
+    margin-bottom: 0;
+}
+
+.update-feature-item i {
+    color: var(--success, #22c55e);
+    margin-right: 10px;
+    font-size: 1.1rem;
+}
+
+.update-progress {
+    margin-top: 20px;
+}
+
+.progress-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.progress-bar-container {
+    width: 100%;
+    height: 10px;
+    background: var(--surface-2);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 5px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: var(--gradient-1, linear-gradient(135deg, #6366f1, #8b5cf6));
+    border-radius: 5px;
+    transition: width 0.3s ease;
+}
+
+.progress-percentage {
+    text-align: center;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.modal-btn {
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+    font-size: 1rem;
+}
+
+.primary-btn {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+}
+
+.primary-btn:hover {
+    background: var(--accent);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
+}
+
+.secondary-btn {
+    background: var(--surface-2);
+    color: #64748b;
+}
+
+.secondary-btn:hover {
+    background: #e2e8f0;
+    color: var(--dark);
+}
+
+/* Dark mode adjustments */
+.dark-mode .modal-content {
+    background: #1e293b;
+}
+
+.dark-mode .update-features {
+    background: #0f172a;
+}
+
+.dark-mode .update-message,
+.dark-mode .modal-header h2 {
+    color: #f9fafb;
+}
+
+.dark-mode .secondary-btn {
+    background: #0f172a;
+    color: #cbd5e1;
+}
+
+.dark-mode .secondary-btn:hover {
+    background: #1e293b;
+    color: #f9fafb;
+}
+
+.dark-mode .progress-bar-container {
+    background: #0f172a;
+}
+
+/* Animation for the update icon */
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.updating .modal-icon i {
+    animation: spin 1.5s linear infinite;
+}
 </style>
 </head>
 <body>
@@ -713,51 +785,55 @@
         </div>
     </div>
 
-   <!-- Update Modal -->
-    <div class="modal" id="updateModal">
-        <div class="modal-content update-modal">
-            <div class="update-header">
-                <div class="update-badge">NEW</div>
-                <h2>Quiz Game Updated!</h2>
-                <div class="close-btn" id="closeUpdateBtn"><i class="fas fa-times"></i></div>
+   <!-- Updated Modal System -->
+<div class="modal" id="updateModal">
+    <div class="modal-content">
+        <div class="close-modal"><i class="fas fa-times"></i></div>
+        <div class="modal-header">
+            <div class="modal-icon">
+                <i class="fas fa-sync-alt"></i>
             </div>
-            <div class="update-body">
-                <div class="update-icon">
-                    <i class="fas fa-rocket"></i>
+            <h2>Update Available</h2>
+        </div>
+        <div class="modal-body">
+            <p class="update-message">New features are available for Quiz Game Pro!</p>
+            
+            <div class="update-features">
+                <div class="update-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>New question formats added</span>
                 </div>
-                <div class="update-features">
-                    <h3>New Features</h3>
-                    <ul>
-                        <li>
-                            <div class="feature-icon"><i class="fas fa-users"></i></div>
-                            <div class="feature-info">
-                                <strong>Multiplayer Mode</strong>
-                                <p>Now you can play with friends in real time! Create a room and share the PIN code.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="feature-icon"><i class="fas fa-trophy"></i></div>
-                            <div class="feature-info">
-                                <strong>Global Leaderboards</strong>
-                                <p>Compete with players worldwide and see your ranking on our global leaderboards.</p>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="feature-icon"><i class="fas fa-cog"></i></div>
-                            <div class="feature-info">
-                                <strong>Custom Quiz Creator</strong>
-                                <p>Create your own quizzes and share them with friends or the community.</p>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="update-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Performance improvements</span>
+                </div>
+                <div class="update-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Dark mode enhancements</span>
+                </div>
+                <div class="update-feature-item">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Bug fixes and stability improvements</span>
                 </div>
             </div>
-            <div class="update-footer">
-                <button id="updateDetailsBtn">View Details</button>
-                <button class="primary-btn" id="continueBtn">Continue</button>
+            
+            <div class="update-progress">
+                <div class="progress-label">
+                    <span>Current version: 2.4.1</span>
+                    <span>New version: 2.5.0</span>
+                </div>
+                <div class="progress-bar-container">
+                    <div class="progress-bar" id="updateProgressBar"></div>
+                </div>
+                <div class="progress-percentage">0%</div>
             </div>
         </div>
+        <div class="modal-footer">
+            <button class="modal-btn secondary-btn" id="laterBtn">Later</button>
+            <button class="modal-btn primary-btn" id="updateBtn">Update Now</button>
+        </div>
     </div>
+</div>
     
     <script>
         // DOM Elements
@@ -1375,51 +1451,74 @@
         });
 </script>
 <script>
-    // Add this to your existing JavaScript code
-
-// DOM Elements for the update modal
+// Update Modal Functionality
 const updateModal = document.getElementById('updateModal');
-const closeUpdateBtn = document.getElementById('closeUpdateBtn');
-const dismissUpdateBtn = document.getElementById('dismissUpdateBtn');
-const updateDetailsBtn = document.getElementById('updateDetailsBtn');
+const updateBtn = document.getElementById('updateBtn');
+const laterBtn = document.getElementById('laterBtn');
+const closeUpdateModal = updateModal.querySelector('.close-modal');
+const progressBar = document.getElementById('updateProgressBar');
+const progressPercentage = document.querySelector('.progress-percentage');
 
-// Show update modal when page is loaded
-document.addEventListener('DOMContentLoaded', function() {
-    // Delay the popup to allow page to load first
-    setTimeout(() => {
-        // Check if the user has already seen this update
-        if (!localStorage.getItem('updateV2Seen')) {
-            updateModal.classList.remove('hidden');
+// Function to open the update modal
+function showUpdateModal() {
+    updateModal.classList.add('show');
+}
+
+// Close modal functions
+function closeUpdateModal() {
+    updateModal.classList.remove('show');
+    // Reset progress if needed
+    progressBar.style.width = '0%';
+    progressPercentage.textContent = '0%';
+    updateModal.classList.remove('updating');
+    updateBtn.textContent = 'Update Now';
+    updateBtn.disabled = false;
+}
+
+closeUpdateModal.addEventListener('click', () => {
+    closeUpdateModal();
+});
+
+laterBtn.addEventListener('click', () => {
+    closeUpdateModal();
+});
+
+// Update process simulation
+updateBtn.addEventListener('click', () => {
+    updateModal.classList.add('updating');
+    updateBtn.textContent = 'Updating...';
+    updateBtn.disabled = true;
+    
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += Math.floor(Math.random() * 5) + 1;
+        if (progress > 100) progress = 100;
+        
+        progressBar.style.width = `${progress}%`;
+        progressPercentage.textContent = `${progress}%`;
+        
+        if (progress === 100) {
+            clearInterval(interval);
+            setTimeout(() => {
+                updateBtn.textContent = 'Restart App';
+                updateBtn.disabled = false;
+                updateModal.classList.remove('updating');
+                
+                // Add event listener for restart button
+                updateBtn.addEventListener('click', () => {
+                    closeUpdateModal();
+                    // In a real app, you would reload the application here
+                    showNotification('Update Complete', 'Quiz Game Pro has been updated to version 2.5.0');
+                }, { once: true });
+            }, 1000);
         }
-    }, 1500);
+    }, 200);
 });
 
-// Close the update modal
-closeUpdateBtn.addEventListener('click', () => {
-    updateModal.classList.add('hidden');
-    localStorage.setItem('updateV2Seen', 'true');
-});
-
-dismissUpdateBtn.addEventListener('click', () => {
-    updateModal.classList.add('hidden');
-    localStorage.setItem('updateV2Seen', 'true');
-});
-
-// Prevent closing when clicking inside the modal content
-updateModal.querySelector('.modal-content').addEventListener('click', (event) => {
-    event.stopPropagation();
-});
-
-// Close modal when clicking outside
-updateModal.addEventListener('click', () => {
-    updateModal.classList.add('hidden');
-    localStorage.setItem('updateV2Seen', 'true');
-});
-
-// Show more details by redirecting to the full announcements page
-updateDetailsBtn.addEventListener('click', () => {
-    window.location.href = 'announcements.html'; // Redirect to the announcements page
-});
+// Auto-show the update modal after some time (for demo purposes)
+setTimeout(() => {
+    showUpdateModal();
+}, 15000); // Show after 15 seconds
 </script>
 </body>
 </html>
