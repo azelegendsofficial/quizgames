@@ -1,0 +1,1526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+        
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --accent: #8b5cf6;
+            --light: #f9fafb;
+            --dark: #111827;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --surface: #ffffff;
+            --surface-2: #f3f4f6;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--dark);
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+            position: relative;
+        }
+        
+        .logo::after {
+            content: "";
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 40px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .pin-input {
+            display: flex;
+            align-items: center;
+            background-color: var(--surface-2);
+            padding: 12px 24px;
+            border-radius: 16px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        
+        .pin-input:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        .pin-input label {
+            margin-right: 15px;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .pin-input input {
+            width: 160px;
+            padding: 12px 20px;
+            border-radius: 12px;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            outline: none;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            background: var(--surface);
+        }
+        
+        .pin-input input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+        }
+        
+        .user-actions {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .search-btn, .sign-in-btn {
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .search-btn {
+            background: var(--surface-2);
+            color: var(--dark);
+        }
+        
+        .sign-in-btn {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .search-btn:hover, .sign-in-btn:hover {
+            transform: translateY(-3px);
+        }
+        
+        .sign-in-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
+        }
+        
+        .game-modes {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .mode-card {
+            flex: 1;
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            border-radius: 20px;
+            padding: 40px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 20px 30px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .mode-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.3), transparent 70%);
+            z-index: 0;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2);
+        }
+        
+        .mode-image {
+            width: 160px;
+            height: 160px;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+            object-fit: cover;
+            border-radius: 20px;
+            border: 4px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px;
+        }
+        
+        .mode-title {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            position: relative;
+            z-index: 1;
+            font-weight: 700;
+        }
+        
+        .mode-desc {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            position: relative;
+            z-index: 1;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+        
+        .mode-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
+        }
+        
+        .mode-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(99, 102, 241, 0.4);
+            background: var(--primary-dark);
+        }
+        
+        .how-to-play {
+            background: var(--surface-2);
+            border-radius: 20px;
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .how-to-play h2 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            position: relative;
+        }
+        
+        .how-to-play h2::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .steps {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step {
+            flex: 1;
+            min-width: 230px;
+            background: var(--surface);
+            padding: 24px;
+            border-radius: 16px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: flex-start;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 0, 0, 0.03);
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+            border-color: rgba(99, 102, 241, 0.1);
+        }
+        
+        .step-number {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            background: var(--primary);
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            font-weight: 600;
+            margin-right: 15px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+        }
+        
+        .step-text {
+            font-size: 1.05rem;
+            line-height: 1.5;
+            color: var(--dark);
+        }
+        
+        /* Modal styles */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .modal.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-content {
+            background: var(--surface);
+            padding: 40px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.2);
+            transform: translateY(30px);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        
+        .modal h2 {
+            margin-bottom: 25px;
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .modal input {
+            width: 100%;
+            padding: 16px;
+            margin-bottom: 25px;
+            border-radius: 14px;
+            border: 2px solid rgba(99, 102, 241, 0.2);
+            font-size: 1rem;
+            transition: all 0.3s;
+            background: var(--surface-2);
+        }
+        
+        .modal input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+            outline: none;
+        }
+        
+        .modal button {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        .modal button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+        }
+        
+        .pin-display {
+            font-size: 2.6rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 25px 0;
+            letter-spacing: 5px;
+            text-shadow: 0 2px 10px rgba(99, 102, 241, 0.2);
+            position: relative;
+            display: inline-block;
+        }
+        
+        .pin-display::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid rgba(99, 102, 241, 0.1);
+            border-top: 5px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+            margin: 0 auto 25px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Quiz Game Styles */
+        .quiz-container {
+            width: 100%;
+            max-width: 1100px;
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid rgba(0, 0, 0, 0.05);
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .category-display {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            background: rgba(99, 102, 241, 0.1);
+            padding: 10px 20px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .category-display i {
+            color: var(--primary);
+        }
+        
+        .question-counter {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+            background: var(--surface-2);
+            padding: 10px 20px;
+            border-radius: 12px;
+        }
+        
+        .timer {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary);
+            background: rgba(236, 72, 153, 0.1);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.2);
+        }
+        
+        .question-container {
+            background: var(--surface-2);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+        }
+        
+        .question-text {
+            font-size: 1.7rem;
+            font-weight: 600;
+            margin-bottom: 30px;
+            line-height: 1.5;
+            color: var(--dark);
+        }
+        
+        .options-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+        
+        .option {
+            background: var(--surface);
+            padding: 20px 25px;
+            border-radius: 16px;
+            border: 2px solid rgba(0, 0, 0, 0.05);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .option:hover {
+            background: rgba(99, 102, 241, 0.05);
+            transform: translateY(-3px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .option.selected {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
+        }
+        
+        .option.correct {
+            background: rgba(16, 185, 129, 0.1);
+            border-color: var(--success);
+            box-shadow: 0 8px 20px rgba(16, 185, 129, 0.2);
+        }
+        
+        .option.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--error);
+            box-shadow: 0 8px 20px rgba(239, 68, 68, 0.2);
+        }
+        
+        .option-letter {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 36px;
+            height: 36px;
+            background: rgba(99, 102, 241, 0.1);
+            color: var(--primary);
+            border-radius: 50%;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+        
+        .option.selected .option-letter {
+            background: var(--primary);
+            color: white;
+        }
+        
+        .option.correct .option-letter {
+            background: var(--success);
+            color: white;
+        }
+        
+        .option.incorrect .option-letter {
+            background: var(--error);
+            color: white;
+        }
+        
+        .option-text {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .quiz-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+        }
+        
+        .score-display {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(99, 102, 241, 0.1);
+            padding: 12px 24px;
+            border-radius: 14px;
+        }
+        
+        .next-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 14px 30px;
+            border-radius: 14px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        .next-btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+        }
+        
+        .feedback {
+            text-align: center;
+            margin: 25px 0;
+            font-size: 1.4rem;
+            font-weight: 700;
+            padding: 15px 30px;
+            border-radius: 14px;
+            display: inline-block;
+            position: relative;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .feedback.correct {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+        
+        .feedback.incorrect {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+        
+        .results-container {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .results-title {
+            font-size: 2.6rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .results-title::after {
+            content: "";
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .results-score {
+            font-size: 3.5rem;
+            color: var(--success);
+            margin-bottom: 40px;
+            font-weight: 700;
+            text-shadow: 0 2px 10px rgba(16, 185, 129, 0.2);
+        }
+        
+        .results-message {
+            font-size: 1.6rem;
+            margin-bottom: 40px;
+            color: var(--dark);
+            line-height: 1.5;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .action-btns {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .restart-btn, .home-btn {
+            padding: 16px 36px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .restart-btn {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 16px rgba(99, 102, 241, 0.3);
+        }
+        
+        .home-btn {
+            background: var(--surface-2);
+            color: var(--dark);
+        }
+        
+        .restart-btn:hover, .home-btn:hover {
+            transform: translateY(-5px);
+        }
+        
+        .restart-btn:hover {
+            background: var(--primary-dark);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.4);
+        }
+        
+        .home-btn:hover {
+            background: #e5e7eb;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+        
+        /* Update Modal Styles */
+        .update-modal {
+            max-width: 550px;
+            padding: 0;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+            background: var(--surface);
+        }
+        
+        .update-header {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 25px 30px;
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+        
+        .update-badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            margin-right: 20px;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 12px rgba(236, 72, 153, 0.3);
+        }
+        
+        .update-header h2 {
+            margin: 0;
+            flex-grow: 1;
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .close-btn {
+            font-size: 1.8rem;
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        .update-body {
+            padding: 40px 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .update-icon {
+            font-size: 4rem;
+            margin-bottom: 30px;
+            color: var(--primary);
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background: rgba(99, 102, 241, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+        
+        .update-features h3 {
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .update-features h3::after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+        
+        .update-features ul {
+            list-style: none;
+            padding: 0;
+            width: 100%;
+        }
+        
+        .update-features li {
+            display: flex;
+            margin-bottom: 25px;
+            align-items: flex-start;
+            background: var(--surface-2);
+            padding: 20px;
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        
+        .update-features li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            background: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            font-size: 1.4rem;
+            color: var(--primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            flex-shrink: 0;
+        }
+        
+        .feature-info {
+            flex-grow: 1;
+        }
+        
+        .feature-info strong {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+        
+        .feature-info p {
+            margin: 0;
+            color: #4b5563;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+        
+        .update-footer {
+            padding: 20px 30px;
+            background: var(--surface-2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .update-footer button {
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        #updateDetailsBtn {
+            background: transparent;
+            color: var(--primary);
+        }
+        
+        #updateDetailsBtn:hover {
+            background: rgba(99, 102, 241, 0.1);
+        }
+        
+        .primary-btn {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .primary-btn:hover {
+    transform: translateY(-3px);
+    background: var(--primary-dark);
+    box-shadow: 0 8px 16px rgba(99, 102, 241, 0.4);
+}
+
+/* Responsive Styles */
+@media (max-width: 992px) {
+    .container {
+        max-width: 90%;
+        padding: 30px;
+    }
+    
+    .game-modes {
+        flex-direction: column;
+    }
+    
+    .options-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .steps {
+        flex-direction: column;
+    }
+    
+    .quiz-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .quiz-footer {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .action-btns {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .restart-btn, .home-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .container {
+        padding: 20px;
+    }
+    
+    .logo {
+        font-size: 2rem;
+    }
+    
+    .user-actions {
+        width: 100%;
+    }
+    
+    .search-btn, .sign-in-btn {
+        flex: 1;
+        justify-content: center;
+    }
+    
+    .mode-title {
+        font-size: 1.8rem;
+    }
+    
+    .question-text {
+        font-size: 1.4rem;
+    }
+    
+    .results-title {
+        font-size: 2rem;
+    }
+    
+    .results-score {
+        font-size: 2.8rem;
+    }
+}
+      </style>
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        <header>
+            <div class="logo">Quiz<span>Game</span></div>
+            <div class="pin-input">
+                <label>Game PIN:</label>
+                <input type="text" placeholder="Enter PIN" id="pinInput">
+            </div>
+            <div class="user-actions">
+                <button class="search-btn">
+                    <i class="fas fa-search"></i> Search
+                </button>
+                <button class="sign-in-btn" id="signInBtn">
+                    <i class="fas fa-user"></i> Sign In
+                </button>
+            </div>
+        </header>
+
+        <div class="game-modes">
+            <div class="mode-card">
+                <img src="/api/placeholder/160/160" alt="Solo Mode" class="mode-image">
+                <h2 class="mode-title">Solo Quiz</h2>
+                <p class="mode-desc">Challenge yourself with a variety of questions in different categories. Track your progress and improve your knowledge.</p>
+                <button class="mode-btn" id="soloModeBtn">Play Solo</button>
+            </div>
+            <div class="mode-card">
+                <img src="/api/placeholder/160/160" alt="Multiplayer Mode" class="mode-image">
+                <h2 class="mode-title">Multiplayer</h2>
+                <p class="mode-desc">Compete with friends or players worldwide. Join a room or create your own quiz session with custom rules.</p>
+                <button class="mode-btn" id="multiplayerBtn">Play with Friends</button>
+            </div>
+        </div>
+
+        <div class="how-to-play">
+            <h2>How to Play</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-text">Choose a game mode: Solo Quiz or Multiplayer with friends.</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-text">Select a category or join a room with the game PIN.</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-text">Answer questions within the time limit to earn points.</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-text">Compare your score with others and climb the leaderboard!</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quiz Game Interface -->
+    <div class="quiz-container hidden" id="quizInterface">
+        <div class="quiz-header">
+            <div class="category-display">
+                <i class="fas fa-globe"></i>
+                <span id="categoryName">General Knowledge</span>
+            </div>
+            <div class="question-counter" id="questionCounter">Question 1/10</div>
+            <div class="timer" id="timer">30</div>
+        </div>
+        
+        <div class="question-container">
+            <div class="question-text" id="questionText">What is the capital city of France?</div>
+            <div class="options-container" id="optionsContainer">
+                <div class="option" data-index="0">
+                    <div class="option-letter">A</div>
+                    <div class="option-text">London</div>
+                </div>
+                <div class="option" data-index="1">
+                    <div class="option-letter">B</div>
+                    <div class="option-text">Berlin</div>
+                </div>
+                <div class="option" data-index="2">
+                    <div class="option-letter">C</div>
+                    <div class="option-text">Paris</div>
+                </div>
+                <div class="option" data-index="3">
+                    <div class="option-letter">D</div>
+                    <div class="option-text">Madrid</div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="feedbackArea"></div>
+        
+        <div class="quiz-footer">
+            <div class="score-display">
+                <i class="fas fa-star"></i>
+                Score: <span id="scoreValue">0</span>
+            </div>
+            <button class="next-btn" id="nextBtn">
+                Next Question <i class="fas fa-arrow-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div class="results-container hidden" id="resultsScreen">
+        <h1 class="results-title">Quiz Completed!</h1>
+        <div class="results-score" id="finalScore">7/10</div>
+        <p class="results-message" id="resultMessage">Great job! You've demonstrated excellent knowledge in this quiz.</p>
+        <div class="action-btns">
+            <button class="restart-btn" id="restartBtn">
+                <i class="fas fa-redo"></i> Play Again
+            </button>
+            <button class="home-btn" id="homeBtn">
+                <i class="fas fa-home"></i> Back to Home
+            </button>
+        </div>
+    </div>
+
+    <!-- Sign In Modal -->
+    <div class="modal" id="signInModal">
+        <div class="modal-content">
+            <h2>Sign In</h2>
+            <input type="text" placeholder="Username" id="usernameInput">
+            <input type="password" placeholder="Password" id="passwordInput">
+            <button id="loginBtn">Login</button>
+        </div>
+    </div>
+
+    <!-- Create Game Modal -->
+    <div class="modal" id="createGameModal">
+        <div class="modal-content">
+            <h2>Create Multiplayer Game</h2>
+            <div class="spinner" id="createGameSpinner"></div>
+            <div id="pinDisplay" class="hidden">
+                <p>Share this PIN with friends:</p>
+                <div class="pin-display" id="gamePin">45678</div>
+                <p>Waiting for players to join...</p>
+            </div>
+            <button id="startGameBtn" class="hidden">Start Game</button>
+        </div>
+    </div>
+
+    <!-- Update Modal -->
+    <div class="modal" id="updateModal">
+        <div class="modal-content update-modal">
+            <div class="update-header">
+                <div class="update-badge">NEW</div>
+                <h2>Quiz Game Updated!</h2>
+                <div class="close-btn" id="closeUpdateBtn"><i class="fas fa-times"></i></div>
+            </div>
+            <div class="update-body">
+                <div class="update-icon">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="update-features">
+                    <h3>New Features</h3>
+                    <ul>
+                        <li>
+                            <div class="feature-icon"><i class="fas fa-users"></i></div>
+                            <div class="feature-info">
+                                <strong>Multiplayer Mode</strong>
+                                <p>Now you can play with friends in real time! Create a room and share the PIN code.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="feature-icon"><i class="fas fa-trophy"></i></div>
+                            <div class="feature-info">
+                                <strong>Global Leaderboards</strong>
+                                <p>Compete with players worldwide and see your ranking on our global leaderboards.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="feature-icon"><i class="fas fa-cog"></i></div>
+                            <div class="feature-info">
+                                <strong>Custom Quiz Creator</strong>
+                                <p>Create your own quizzes and share them with friends or the community.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="update-footer">
+                <button id="updateDetailsBtn">View Details</button>
+                <button class="primary-btn" id="continueBtn">Continue</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample quiz questions
+        const quizQuestions = [
+            {
+                question: "What is the capital city of France?",
+                options: ["London", "Berlin", "Paris", "Madrid"],
+                correctIndex: 2,
+                category: "Geography"
+            },
+            {
+                question: "Who painted the Mona Lisa?",
+                options: ["Vincent van Gogh", "Leonardo da Vinci", "Pablo Picasso", "Michelangelo"],
+                correctIndex: 1,
+                category: "Art"
+            },
+            {
+                question: "What is the largest planet in our solar system?",
+                options: ["Earth", "Mars", "Jupiter", "Saturn"],
+                correctIndex: 2,
+                category: "Science"
+            },
+            {
+                question: "Which element has the chemical symbol 'O'?",
+                options: ["Gold", "Oxygen", "Osmium", "Oganesson"],
+                correctIndex: 1,
+                category: "Science"
+            },
+            {
+                question: "In which year did World War II end?",
+                options: ["1943", "1945", "1947", "1950"],
+                correctIndex: 1,
+                category: "History"
+            }
+        ];
+
+        // Game state variables
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionIndex = -1;
+        let timeLeft = 30;
+        let timerInterval;
+
+        // DOM elements
+        const mainContainer = document.querySelector('.container');
+        const quizInterface = document.getElementById('quizInterface');
+        const resultsScreen = document.getElementById('resultsScreen');
+        const categoryName = document.getElementById('categoryName');
+        const questionCounter = document.getElementById('questionCounter');
+        const timerElement = document.getElementById('timer');
+        const questionText = document.getElementById('questionText');
+        const optionsContainer = document.getElementById('optionsContainer');
+        const feedbackArea = document.getElementById('feedbackArea');
+        const scoreValue = document.getElementById('scoreValue');
+        const nextBtn = document.getElementById('nextBtn');
+        const finalScore = document.getElementById('finalScore');
+        const resultMessage = document.getElementById('resultMessage');
+        const restartBtn = document.getElementById('restartBtn');
+        const homeBtn = document.getElementById('homeBtn');
+        const signInBtn = document.getElementById('signInBtn');
+        const signInModal = document.getElementById('signInModal');
+        const loginBtn = document.getElementById('loginBtn');
+        const soloModeBtn = document.getElementById('soloModeBtn');
+        const multiplayerBtn = document.getElementById('multiplayerBtn');
+        const createGameModal = document.getElementById('createGameModal');
+        const gamePin = document.getElementById('gamePin');
+        const pinDisplay = document.getElementById('pinDisplay');
+        const createGameSpinner = document.getElementById('createGameSpinner');
+        const startGameBtn = document.getElementById('startGameBtn');
+        const updateModal = document.getElementById('updateModal');
+        const closeUpdateBtn = document.getElementById('closeUpdateBtn');
+        const continueBtn = document.getElementById('continueBtn');
+
+        // Show update modal on page load
+        window.addEventListener('load', () => {
+            updateModal.classList.add('show');
+        });
+
+        // Close update modal
+        closeUpdateBtn.addEventListener('click', () => {
+            updateModal.classList.remove('show');
+        });
+
+        continueBtn.addEventListener('click', () => {
+            updateModal.classList.remove('show');
+        });
+
+        // Sign In modal functionality
+        signInBtn.addEventListener('click', () => {
+            signInModal.classList.add('show');
+        });
+
+        loginBtn.addEventListener('click', () => {
+            signInModal.classList.remove('show');
+        });
+
+        // Hide modal when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === signInModal) {
+                signInModal.classList.remove('show');
+            }
+            if (e.target === createGameModal) {
+                createGameModal.classList.remove('show');
+            }
+            if (e.target === updateModal) {
+                updateModal.classList.remove('show');
+            }
+        });
+
+        // Start solo mode
+        soloModeBtn.addEventListener('click', () => {
+            startQuiz();
+        });
+
+        // Multiplayer functionality
+        multiplayerBtn.addEventListener('click', () => {
+            createGameModal.classList.add('show');
+            createGameSpinner.classList.remove('hidden');
+            
+            // Simulate PIN generation after 2 seconds
+            setTimeout(() => {
+                createGameSpinner.classList.add('hidden');
+                pinDisplay.classList.remove('hidden');
+                startGameBtn.classList.remove('hidden');
+                
+                // Generate random PIN
+                const randomPin = Math.floor(10000 + Math.random() * 90000);
+                gamePin.textContent = randomPin;
+            }, 2000);
+        });
+
+        // Start game from multiplayer mode
+        startGameBtn.addEventListener('click', () => {
+            createGameModal.classList.remove('show');
+            startQuiz();
+        });
+
+        // Start the quiz
+        function startQuiz() {
+            mainContainer.classList.add('hidden');
+            quizInterface.classList.remove('hidden');
+            loadQuestion();
+            startTimer();
+        }
+
+        // Load a question
+        function loadQuestion() {
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            
+            // Update UI
+            categoryName.textContent = currentQuestion.category;
+            questionCounter.textContent = `Question ${currentQuestionIndex + 1}/${quizQuestions.length}`;
+            questionText.textContent = currentQuestion.question;
+            
+            // Clear previous options
+            optionsContainer.innerHTML = '';
+            
+            // Add options
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.dataset.index = index;
+                
+                const letterElement = document.createElement('div');
+                letterElement.className = 'option-letter';
+                letterElement.textContent = String.fromCharCode(65 + index); // A, B, C, D
+                
+                const textElement = document.createElement('div');
+                textElement.className = 'option-text';
+                textElement.textContent = option;
+                
+                optionElement.appendChild(letterElement);
+                optionElement.appendChild(textElement);
+                optionsContainer.appendChild(optionElement);
+                
+                // Add click event listener
+                optionElement.addEventListener('click', () => selectOption(index));
+            });
+            
+            // Reset state
+            selectedOptionIndex = -1;
+            feedbackArea.innerHTML = '';
+            timeLeft = 30;
+            timerElement.textContent = timeLeft;
+        }
+
+        // Select an option
+        function selectOption(index) {
+            // If already selected an option for this question, ignore
+            if (selectedOptionIndex !== -1) return;
+            
+            selectedOptionIndex = index;
+            const currentQuestion = quizQuestions[currentQuestionIndex];
+            const options = document.querySelectorAll('.option');
+            
+            // Mark selected option
+            options[index].classList.add('selected');
+            
+            // Check if answer is correct
+            if (index === currentQuestion.correctIndex) {
+                // Correct answer
+                options[index].classList.add('correct');
+                feedbackArea.innerHTML = '<div class="feedback correct">Correct! Well done!</div>';
+                score += 10;
+                scoreValue.textContent = score;
+            } else {
+                // Incorrect answer
+                options[index].classList.add('incorrect');
+                options[currentQuestion.correctIndex].classList.add('correct');
+                feedbackArea.innerHTML = '<div class="feedback incorrect">Incorrect! The correct answer is ' + 
+                                         currentQuestion.options[currentQuestion.correctIndex] + '.</div>';
+            }
+            
+            // Stop the timer
+            clearInterval(timerInterval);
+        }
+
+        // Start timer
+        function startTimer() {
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft;
+                
+                if (timeLeft <= 10) {
+                    timerElement.style.color = 'var(--error)';
+                }
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timerInterval);
+                    if (selectedOptionIndex === -1) {
+                        // Time's up without selection
+                        const currentQuestion = quizQuestions[currentQuestionIndex];
+                        const options = document.querySelectorAll('.option');
+                        options[currentQuestion.correctIndex].classList.add('correct');
+                        feedbackArea.innerHTML = '<div class="feedback incorrect">Time\'s up! The correct answer is ' + 
+                                                currentQuestion.options[currentQuestion.correctIndex] + '.</div>';
+                    }
+                }
+            }, 1000);
+        }
+
+        // Move to next question
+        nextBtn.addEventListener('click', () => {
+            if (currentQuestionIndex < quizQuestions.length - 1) {
+                currentQuestionIndex++;
+                loadQuestion();
+                startTimer();
+            } else {
+                // End of quiz
+                showResults();
+            }
+        });
+
+        // Show results screen
+        function showResults() {
+            quizInterface.classList.add('hidden');
+            resultsScreen.classList.remove('hidden');
+            
+            const totalQuestions = quizQuestions.length;
+            const correctAnswers = score / 10;
+            
+            finalScore.textContent = `${correctAnswers}/${totalQuestions}`;
+            
+            // Set result message based on score
+            const percentage = (correctAnswers / totalQuestions) * 100;
+            
+            if (percentage >= 80) {
+                resultMessage.textContent = "Excellent! You have mastered this topic!";
+            } else if (percentage >= 60) {
+                resultMessage.textContent = "Good job! You have a solid understanding of the material.";
+            } else if (percentage >= 40) {
+                resultMessage.textContent = "Not bad, but there's room for improvement. Keep practicing!";
+            } else {
+                resultMessage.textContent = "You might want to review this topic more. Don't give up!";
+            }
+        }
+
+        // Restart the quiz
+        restartBtn.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreValue.textContent = score;
+            resultsScreen.classList.add('hidden');
+            startQuiz();
+        });
+
+        // Return to home screen
+        homeBtn.addEventListener('click', () => {
+            currentQuestionIndex = 0;
+            score = 0;
+            scoreValue.textContent = score;
+            resultsScreen.classList.add('hidden');
+            mainContainer.classList.remove('hidden');
+        });
+    </script>
+</body>
+</html>
