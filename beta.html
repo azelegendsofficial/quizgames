@@ -2024,5 +2024,140 @@ footer a:hover {
             showNotification('Welcome!', 'Thanks for checking out Quiz Game Pro. Explore our featured quizzes!');
         }, 10000);
     </script>
+    <script>
+        // Main Quiz Application
+class QuizApp {
+  constructor() {
+    this.currentUser = this.loadUserProfile();
+    this.quizCategories = [
+      'Matematika', 
+      'Fisika', 
+      'Sains', 
+      'Bahasa Indonesia', 
+      'Bahasa Inggris', 
+      'Informatika', 
+      'IPS'
+    ];
+    this.initializeEventListeners();
+  }
+
+  // Menyimpan dan memuat profil pengguna
+  loadUserProfile() {
+    const savedProfile = localStorage.getItem('userProfile');
+    return savedProfile ? JSON.parse(savedProfile) : null;
+  }
+
+  saveUserProfile(profile) {
+    localStorage.setItem('userProfile', JSON.stringify(profile));
+  }
+
+  // Inisialisasi event listener untuk berbagai mode
+  initializeEventListeners() {
+    document.getElementById('live-quiz-btn').addEventListener('click', () => {
+      this.showLiveQuizOptions();
+    });
+
+    document.getElementById('single-player-btn').addEventListener('click', () => {
+      this.startSinglePlayerMode();
+    });
+  }
+
+  // Menampilkan pilihan Live Quiz
+  showLiveQuizOptions() {
+    const options = `
+      <div class="quiz-options">
+        <button id="create-room-btn">Buat Ruangan</button>
+        <button id="join-room-btn">Gabung Ruangan Acak</button>
+      </div>
+    `;
+    // Tampilkan opsi di modal atau area khusus
+    document.getElementById('quiz-options-container').innerHTML = options;
+
+    document.getElementById('create-room-btn').addEventListener('click', () => {
+      this.createQuizRoom();
+    });
+
+    document.getElementById('join-room-btn').addEventListener('click', () => {
+      this.joinRandomRoom();
+    });
+  }
+
+  // Membuat ruangan baru
+  createQuizRoom() {
+    // Generate pin unik untuk ruangan
+    const roomPin = this.generateRoomPin();
+    
+    // Tampilkan pin dan tunggu pemain lain
+    this.displayRoomWaitingScreen(roomPin);
+  }
+
+  generateRoomPin() {
+    return Math.random().toString(36).substring(2, 8).toUpperCase();
+  }
+
+  displayRoomWaitingScreen(pin) {
+    const waitScreen = `
+      <div class="room-wait-screen">
+        <h2>Ruangan Anda Siap!</h2>
+        <p>PIN Ruangan: <strong>${pin}</strong></p>
+        <p>Bagikan PIN ini kepada teman Anda untuk bergabung</p>
+        <div id="player-list"></div>
+      </div>
+    `;
+    // Tampilkan layar menunggu
+  }
+
+  // Gabung ke ruangan
+  joinRandomRoom() {
+    // Logika untuk bergabung ke ruangan acak
+  }
+
+  // Memulai profil pengguna
+  setupUserProfile() {
+    if (!this.currentUser) {
+      const profileModal = `
+        <div class="profile-setup">
+          <input type="text" id="username-input" placeholder="Nama Anda">
+          <input type="file" id="profile-photo" accept="image/*">
+          <button id="save-profile">Simpan Profil</button>
+        </div>
+      `;
+      // Tampilkan modal pengaturan profil
+    }
+  }
+
+  // Memulai quiz
+  startQuiz(category, difficulty) {
+    const questions = this.generateQuestions(category, difficulty);
+    // Logika untuk memulai kuis
+  }
+
+  generateQuestions(category, difficulty) {
+    // Generate pertanyaan berdasarkan kategori dan tingkat kesulitan
+    // Contoh struktur pertanyaan:
+    // {
+    //   question: "Pertanyaan",
+    //   options: ["A", "B", "C", "D"],
+    //   correctAnswer: "B",
+    //   points: disesuaikan dengan tingkat kesulitan
+    // }
+  }
+
+  // Papan peringkat
+  updateLeaderboard(points) {
+    // Logika update leaderboard global
+  }
+
+  // Mode single player vs bot
+  startSinglePlayerMode() {
+    // Logika permainan melawan bot
+  }
+}
+
+// Inisialisasi aplikasi
+document.addEventListener('DOMContentLoaded', () => {
+  const quizApp = new QuizApp();
+});
+    </script>
 </body>
 </html>
