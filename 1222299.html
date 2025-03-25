@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Situs Web AI Modern</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Situs Web AI Modern</h1>
+        </header>
+        <main>
+            <section id="input-section">
+                <textarea id="input-text" placeholder="Masukkan teks..."></textarea>
+                <div class="input-options">
+                    <select id="model-select">
+                        <option value="text-davinci-003">Model 1</option>
+                        <option value="text-curie-001">Model 2</option>
+                    </select>
+                    <input type="number" id="max-tokens" placeholder="Max Tokens" value="100">
+                    <button id="process-button">Proses <i class="fas fa-arrow-right"></i></button>
+                </div>
+            </section>
+            <section id="output-section">
+                <div id="output-area"></div>
+            </section>
+        </main>
+    </div>
+    <script src="https://js.puter.com/v2/"></script>
+    <script>
+        puter.ai.chat("Explain quantum computing in simple terms", {model: 'claude-3-5-sonnet'})
+            .then(response => {
+                puter.print(response.message.content[0].text);
+            });
+    </script>
+</body>
+</html>
