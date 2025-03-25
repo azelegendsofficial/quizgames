@@ -2025,7 +2025,7 @@ footer a:hover {
         }, 10000);
     </script>
     <script>
-        // Main Quiz Application
+       // Main Quiz Application
 class QuizApp {
   constructor() {
     this.currentUser = this.loadUserProfile();
@@ -2039,6 +2039,9 @@ class QuizApp {
       'IPS'
     ];
     this.initializeEventListeners();
+    this.setupThemeToggle();
+    this.setupNotifications();
+    this.setupModalInteractions();
   }
 
   // Menyimpan dan memuat profil pengguna
@@ -2053,12 +2056,78 @@ class QuizApp {
 
   // Inisialisasi event listener untuk berbagai mode
   initializeEventListeners() {
-    document.getElementById('live-quiz-btn').addEventListener('click', () => {
-      this.showLiveQuizOptions();
+    // Event listener untuk mode quiz
+    document.querySelectorAll('.mode-btn').forEach(button => {
+      button.addEventListener('click', () => {
+        const mode = button.closest('.mode-card').querySelector('.mode-title').textContent;
+        this.handleModeSelection(mode);
+      });
     });
 
-    document.getElementById('single-player-btn').addEventListener('click', () => {
-      this.startSinglePlayerMode();
+    // Event listener untuk kategori
+    document.querySelectorAll('.category-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const category = card.querySelector('.category-name').textContent;
+        this.handleCategorySelection(category);
+      });
+    });
+  }
+
+  // Toggle tema
+  setupThemeToggle() {
+    const themeToggle = document.getElementById('themeToggle');
+    const body = document.body;
+    
+    themeToggle.addEventListener('click', () => {
+      body.classList.toggle('dark-mode');
+      if (body.classList.contains('dark-mode')) {
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+      } else {
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+      }
+    });
+  }
+
+  // Sistem notifikasi
+  setupNotifications() {
+    const notificationsBtn = document.querySelector('.sign-in-btn');
+    const notificationsPanel = document.getElementById('notificationsPanel');
+    const closeNotifications = document.querySelector('.notifications-header i');
+    
+    notificationsBtn.addEventListener('click', () => {
+      notificationsPanel.classList.toggle('show');
+    });
+    
+    closeNotifications.addEventListener('click', () => {
+      notificationsPanel.classList.remove('show');
+    });
+  }
+
+  // Interaksi modal
+  setupModalInteractions() {
+    const pinModal = document.getElementById('pinModal');
+    const searchBtn = document.querySelector('.search-btn');
+    const closeModal = document.querySelector('.close-modal');
+    const copyBtn = document.querySelector('.pin-display + button');
+    const pinDisplay = document.querySelector('.pin-display');
+    
+    searchBtn.addEventListener('click', () => {
+      pinModal.style.display = 'flex';
+    });
+    
+    closeModal.addEventListener('click', () => {
+      pinModal.style.display = 'none';
+    });
+
+    // Fungsi copy PIN
+    copyBtn.addEventListener('click', () => {
+      const pinText = pinDisplay.textContent;
+      navigator.clipboard.writeText(pinText).then(() => {
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => {
+          copyBtn.textContent = 'Copy PIN';
+        }, 2000);
+      });
     });
   }
 
@@ -2105,11 +2174,55 @@ class QuizApp {
       </div>
     `;
     // Tampilkan layar menunggu
+    const pinModal = document.getElementById('pinModal');
+    pinModal.querySelector('.modal-content').innerHTML = waitScreen;
+    pinModal.style.display = 'flex';
   }
 
   // Gabung ke ruangan
   joinRandomRoom() {
     // Logika untuk bergabung ke ruangan acak
+    this.showNotification('Mencari Ruangan', 'Sedang mencari ruangan yang tersedia...');
+  }
+
+  // Menangani pemilihan mode
+  handleModeSelection(mode) {
+    switch(mode) {
+      case 'Live Quiz':
+        this.showLiveQuizOptions();
+        break;
+      case 'Solo Challenge':
+        this.startSinglePlayerMode();
+        break;
+    }
+  }
+
+  // Menangani pemilihan kategori
+  handleCategorySelection(category) {
+    this.showNotification('Kategori Dipilih', `Anda memilih kategori ${category}`);
+    // Logika lanjutan untuk memulai kuis pada kategori tertentu
+  }
+
+  // Menampilkan notifikasi
+  showNotification(title, message) {
+    const notificationsList = document.querySelector('.notifications-list');
+    const newNotification = document.createElement('div');
+    newNotification.className = 'notification-item';
+    
+    newNotification.innerHTML = `
+      <div class="notification-title">${title}</div>
+      <div class="notification-message">${message}</div>
+      <div class="notification-time">Baru saja</div>
+    `;
+    
+    notificationsList.prepend(newNotification);
+    
+    // Tampilkan panel notifikasi sebentar
+    const notificationsPanel = document.getElementById('notificationsPanel');
+    notificationsPanel.classList.add('show');
+    setTimeout(() => {
+      notificationsPanel.classList.remove('show');
+    }, 3000);
   }
 
   // Memulai profil pengguna
@@ -2134,29 +2247,54 @@ class QuizApp {
 
   generateQuestions(category, difficulty) {
     // Generate pertanyaan berdasarkan kategori dan tingkat kesulitan
+    const difficultyLevels = ['Easy', 'Medium', 'Hard', 'Extreme'];
+    const questionCount = 9;
+    
     // Contoh struktur pertanyaan:
-    // {
-    //   question: "Pertanyaan",
-    //   options: ["A", "B", "C", "D"],
-    //   correctAnswer: "B",
-    //   points: disesuaikan dengan tingkat kesulitan
-    // }
+    return Array.from({length: questionCount}, (_, index) => ({
+      question: `Contoh pertanyaan ${category} - ${difficultyLevels[Math.floor(index/3)]}`,
+      options: ["A", "B", "C", "D"],
+      correctAnswer: "B",
+      difficulty: difficultyLevels[Math.floor(index/3)]
+    }));
   }
 
   // Papan peringkat
   updateLeaderboard(points) {
     // Logika update leaderboard global
+    this.showNotification('Skor Diperbarui', `Anda mendapatkan ${points} poin`);
   }
 
   // Mode single player vs bot
   startSinglePlayerMode() {
     // Logika permainan melawan bot
+    this.showNotification('Mode Solo', 'Memulai tantangan solo');
   }
 }
 
 // Inisialisasi aplikasi
 document.addEventListener('DOMContentLoaded', () => {
   const quizApp = new QuizApp();
+
+  // Animasi pada scroll
+  const animateElements = document.querySelectorAll('.mode-card, .category-card, .step, .stat-item');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('fade-in');
+      }
+    });
+  }, { threshold: 0.1 });
+  
+  animateElements.forEach(element => {
+    observer.observe(element);
+  });
+
+  // Demo: Tampilkan notifikasi selamat datang setelah 10 detik
+  setTimeout(() => {
+    quizApp.showNotification('Selamat Datang!', 'Terima kasih telah mengunjungi Quiz Game Pro. Jelajahi kuis menarik kami!');
+  }, 10000);
 });
     </script>
 </body>
