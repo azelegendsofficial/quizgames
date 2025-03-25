@@ -76,8 +76,8 @@ header {
                 <textarea id="input-text" placeholder="Masukkan teks..."></textarea>
                 <div class="input-options">
                     <select id="model-select">
-                        <option value="text-davinci-003">Model 1</option>
-                        <option value="text-curie-001">Model 2</option>
+                        <option value="claude-sonnet-3.7">Claude AI Sonnet 3.7</option>
+                        <option value="chatgpt-pro">Chat GPT PRO</option>
                     </select>
                     <input type="number" id="max-tokens" placeholder="Max Tokens" value="100">
                     <button id="process-button">Proses <i class="fas fa-arrow-right"></i></button>
@@ -88,20 +88,47 @@ header {
             </section>
         </main>
     </div>
-    <script src="https://js.puter.com/v2/"></script>
     <script>
-        async function streamClaudeResponse() {
-            const response = await puter.ai.chat(
-                "Write a detailed essay on the impact of artificial intelligence on society", 
-                {model: 'claude-3-5-sonnet', stream: true}
-            );
-            
-            for await (const part of response) {
-                puter.print(part?.text);
-            }
-        }
+        const inputText = document.getElementById('input-text');
+const processButton = document.getElementById('process-button');
+const outputArea = document.getElementById('output-area');
+const modelSelect = document.getElementById('model-select');
+const maxTokensInput = document.getElementById('max-tokens');
 
-        streamClaudeResponse();
+processButton.addEventListener('click', () => {
+    const text = inputText.value;
+    const model = modelSelect.value;
+    const maxTokens = parseInt(maxTokensInput.value);
+
+    let apiUrl, apiKey;
+
+    if (model === 'claude-sonnet-3.7') {
+        apiKey = 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'; // Ganti dengan API key Claude Anda
+    } else if (model === 'chatgpt-pro') {
+        apiKey = 'YOUR_OPENAI_API_KEY'; // Ganti dengan API key OpenAI Anda
+    }
+
+    fetch(apiUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${apiKey}`
+        },
+        body: JSON.stringify({
+            model: model === 'chatgpt-pro' ? 'text-davinci-003' : model, // Sesuaikan model untuk OpenAI
+            prompt: text,
+            max_tokens: maxTokens
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        outputArea.textContent = data.choices[0].text;
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        outputArea.textContent = 'Terjadi kesalahan.';
+    });
+});
     </script>
 </body>
 </html>
