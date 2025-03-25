@@ -3,108 +3,159 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Select Your Device - QuizGame</title>
+    <title>QuizGame - Choose Your Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Reset and Base Styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        :root {
+            --primary-gradient: linear-gradient(135deg, #6a5af9 0%, #4568dc 100%);
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --card-hover: rgba(255, 255, 255, 0.2);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
 
-body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    color: #ffffff;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-.container {
-    width: 100%;
-    max-width: 800px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    padding: 30px;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.1);
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--primary-gradient);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: var(--text-primary);
+            overflow-x: hidden;
+        }
 
-.title {
-    text-align: center;
-    margin-bottom: 40px;
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #ffffff;
-}
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 40px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
 
-.device-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 25px;
-}
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 1;
+        }
 
-.device-box {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 15px;
-    padding: 30px;
-    text-align: center;
-    transition: all 0.3s ease;
-    border: 2px solid transparent;
-    cursor: pointer;
-}
+        .title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-.device-box:hover {
-    background: rgba(255, 255, 255, 0.1);
-    border-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-10px);
-}
+        .device-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            position: relative;
+            z-index: 2;
+        }
 
-.device-icon {
-    width: 100px;
-    height: 100px;
-    margin: 0 auto 20px;
-    color: #ffffff;
-}
+        .device-box {
+            text-decoration: none;
+            display: block;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
 
-.device-title {
-    font-size: 1.5rem;
-    margin-bottom: 15px;
-    font-weight: 600;
-}
+        .device-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(255,255,255,0.05), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.4s ease;
+        }
 
-.device-description {
-    color: rgba(255, 255, 255, 0.7);
-    font-size: 1rem;
-}
+        .device-box:hover::before {
+            transform: translateX(0);
+        }
 
-/* Responsive Design */
-@media (max-width: 768px) {
-    .device-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .title {
-        font-size: 2rem;
-    }
-}
+        .device-box:hover {
+            transform: translateY(-15px) scale(1.05);
+            background: var(--card-hover);
+            border-color: rgba(255,255,255,0.3);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        }
 
-/* Accessibility and Interaction */
-.device-box:focus {
-    outline: 3px solid rgba(255, 255, 255, 0.5);
-}
+        .device-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            color: var(--text-primary);
+            opacity: 0.8;
+            transition: transform 0.3s ease;
+        }
 
-.device-box:active {
-    transform: scale(0.95);
-} 
+        .device-box:hover .device-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .device-title {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .device-description {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 300;
+        }
+
+        @media (max-width: 768px) {
+            .device-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .title {
+                font-size: 2.2rem;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="title">Which Device Are You Using?</h1>
+        <h1 class="title">Select Your Gaming Platform</h1>
         
         <div class="device-grid">
             <a href="komputer.html" class="device-box">
@@ -112,7 +163,7 @@ body {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 <h2 class="device-title">PC / Computer</h2>
-                <p class="device-description">Play on a larger screen with full features</p>
+                <p class="device-description">Immersive gameplay on a larger screen</p>
             </a>
             
             <a href="mobile.html" class="device-box">
@@ -120,7 +171,7 @@ body {
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
                 <h2 class="device-title">Mobile / Smartphone</h2>
-                <p class="device-description">Play on the go with mobile-friendly interface</p>
+                <p class="device-description">Quiz on the go, anytime, anywhere</p>
             </a>
         </div>
     </div>
