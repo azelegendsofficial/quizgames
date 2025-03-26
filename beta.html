@@ -1527,7 +1527,7 @@ footer a:hover {
 }
 </style>
 <style>
-    .modal5 {
+    .modal2 {
             position: fixed;
             top: 0;
             left: 0;
@@ -1543,12 +1543,12 @@ footer a:hover {
             transition: all 0.4s ease;
         }
 
-        .modal5.show {
+        .modal.show2 {
             display: flex;
             opacity: 1;
         }
 
-        .modal5-content {
+        .modal-content2 {
             background: linear-gradient(145deg, #ffffff 0%, #f0f4f8 100%);
             border-radius: 20px;
             box-shadow: 
@@ -1564,48 +1564,24 @@ footer a:hover {
             transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
-        .modal5.show .modal5-content {
+        .modal.show2 .modal-content2 {
             transform: scale(1);
             opacity: 1;
         }
 
-        .loading5-modal {
-            background: linear-gradient(145deg, #ffffff 0%, #f0f4f8 100%);
-            border-radius: 20px;
-            box-shadow: 
-                0 30px 60px -15px rgba(0, 0, 0, 0.2),
-                0 15px 25px -10px rgba(0, 0, 0, 0.1);
-            max-width: 400px;
-            width: 90%;
-            padding: 40px;
-            text-align: center;
-            position: relative;
-        }
-
-        .spinner5 {
-            width: 80px;
-            height: 80px;
+        .loading-spinner2 {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
             border: 8px solid #f3f3f3;
             border-top: 8px solid #3182ce;
             border-radius: 50%;
-            animation: spin5 1s linear infinite;
-            margin: 0 auto 20px;
+            animation: spin 1s linear infinite;
         }
 
-        @keyframes spin5 {
+        @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
-        }
-
-        .loading5-modal h3 {
-            font-size: 24px;
-            color: #2c5282;
-            margin-bottom: 15px;
-        }
-
-        .loading5-modal p {
-            font-size: 16px;
-            color: #4a5568;
         }
 
         .reconnect-icon {
@@ -1632,7 +1608,22 @@ footer a:hover {
             100% { transform: scale(1); }
         }
 
-        .btn5 {
+        .modal-content2 h22 {
+            font-size: 30px;
+            font-weight: 700;
+            color: #1a202c;
+            margin-bottom: 15px;
+            letter-spacing: -0.5px;
+        }
+
+        .modal-content2 p2 {
+            font-size: 16px;
+            color: #4a5568;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+
+        .btn2 {
             display: inline-block;
             padding: 14px 30px;
             margin: 0 10px;
@@ -1645,30 +1636,30 @@ footer a:hover {
             border: none;
         }
 
-        .btn5-trigger {
+        .btn-trigger2 {
             background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
             color: white;
             box-shadow: 0 10px 20px -5px rgba(72, 187, 120, 0.3);
         }
 
-        .btn5-primary {
+        .btn-primary2 {
             background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
             color: white;
             box-shadow: 0 10px 20px -5px rgba(49, 130, 206, 0.3);
         }
 
-        .btn5-secondary {
+        .btn-secondary2 {
             background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
             color: white;
             box-shadow: 0 10px 20px -5px rgba(113, 128, 150, 0.3);
         }
 
-        .btn5:hover {
+        .btn2:hover {
             transform: translateY(-3px);
             box-shadow: 0 15px 25px -5px rgba(49, 130, 206, 0.4);
         }
 
-        .modal5-close {
+        .modal-close2 {
             position: absolute;
             top: 15px;
             right: 15px;
@@ -1680,7 +1671,7 @@ footer a:hover {
             transition: color 0.2s ease;
         }
 
-        .modal5-close:hover {
+        .modal-close2:hover {
             color: #1a202c;
         }
 </style>
@@ -2012,17 +2003,17 @@ footer a:hover {
         </div>
     </div>
 
-    <div id="loadingModal5" class="modal5 show">
-        <div class="loading5-modal">
-            <div class="spinner5"></div>
-            <h3>Menyambungkan Server</h3>
-            <p>Mohon tunggu, sedang mencoba terhubung ke server permainan...</p>
+    <div id="loadingModal" class="modal2">
+        <div class="modal-content2">
+            <div class="loading-spinner2"></div>
+            <h2>Menyambungkan Server</h2>
+            <p>Mohon tunggu sebentar, sedang mencoba menyambungkan kembali...</p>
         </div>
     </div>
-
-    <div id="reconnectModal5" class="modal5">
-        <div class="modal5-content">
-            <button class="modal5-close" onclick="closeReconnectModal()">&times;</button>
+    
+    <div id="disconnectModal" class="modal2">
+        <div class="modal-content2">
+            <button class="modal-close2" onclick="closeDisconnectModal()">&times;</button>
             
             <div class="reconnect-icon">
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -2034,8 +2025,8 @@ footer a:hover {
             <p>Sepertinya Anda terputus dari permainan. Pilih opsi di bawah untuk melanjutkan.</p>
             
             <div>
-                <button class="btn5 btn5-primary" onclick="reconnectGame()">Sambungkan Ulang</button>
-                <button class="btn5 btn5-secondary" onclick="returnToLobby()">Kembali ke Lobby</button>
+                <button class="btn2 btn-primary2" onclick="reconnectGame()">Sambungkan Ulang</button>
+                <button class="btn2 btn-secondary2" onclick="returnToLobby()">Kembali ke Lobby</button>
             </div>
         </div>
     </div>
@@ -2346,42 +2337,36 @@ document.addEventListener('DOMContentLoaded', () => {
     </script>
     <script>
         function startGame() {
-            // Tampilkan modal loading
-            document.getElementById('loadingModal').style.display = 'flex';
+            const loadingModal = document.getElementById('loadingModal');
+            loadingModal.classList.add('show');
 
-            // Simulasikan pemuatan server dan kesalahan
+            // Simulate server connection attempt
             setTimeout(() => {
-                document.getElementById('loadingModal').style.display = 'none';
-                document.getElementById('errorModal').style.display = 'flex';
+                loadingModal.classList.remove('show');
+                
+                // Show disconnect modal after loading
+                setTimeout(() => {
+                    const disconnectModal = document.getElementById('disconnectModal');
+                    disconnectModal.classList.add('show');
+                }, 500);
             }, 3000);
         }
 
-        function checkServerStatus() {
-            // Alihkan atau buka halaman status server
-            window.open('https://status.quizgame.com', '_blank');
-        }
-    </script>
-    <script>
-        function showReconnectModal() {
-            const reconnectModal = document.getElementById('reconnectModal5');
-            reconnectModal.classList.add('show');
-        }
-
-        function closeReconnectModal() {
-            const reconnectModal = document.getElementById('reconnectModal5');
-            reconnectModal.classList.remove('show');
+        function closeDisconnectModal() {
+            const disconnectModal = document.getElementById('disconnectModal');
+            disconnectModal.classList.remove('show');
         }
 
         function reconnectGame() {
             console.log('Menyambungkan ulang permainan...');
             // Tambahkan logika reconnect game di sini
-            closeReconnectModal();
+            closeDisconnectModal();
         }
 
         function returnToLobby() {
             console.log('Kembali ke lobby...');
             // Tambahkan logika kembali ke lobby di sini
-            closeReconnectModal();
+            closeDisconnectModal();
         }
     </script>
 </body>
