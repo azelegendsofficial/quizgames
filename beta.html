@@ -2393,12 +2393,12 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (data.resourcesAvailable) {
                         initializeGame(data);
                     } else {
-                        showReconnectModal();
+                        showReconnectModal5();
                     }
                 })
                 .catch(error => {
                     // Tangani kesalahan koneksi
-                    showReconnectModal();
+                    showReconnectModal5();
                 });
         }
 
