@@ -2362,79 +2362,26 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     </script>
     <script>
-        // Sembunyikan modal loading di awal
-        document.getElementById('loadingModal5').style.display = 'none';
-
-        function startGame() {
-            const loadingModal = document.getElementById('loadingModal5');
-            
-            // Tampilkan modal loading
-            loadingModal.style.display = 'flex';
-            loadingModal.classList.add('show');
-
-            // Simulasi proses memuat game
-            setTimeout(() => {
-                // Proses pengecekan koneksi dan sumber daya game
-                checkGameResources();
-            }, 2000);
-        }
-
-        function checkGameResources() {
-            // Simulasi pengecekan sumber daya game
-            fetch('https://api.game.com/check-resources')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('Gagal memuat sumber daya');
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    // Jika sumber daya tersedia
-                    if (data.resourcesAvailable) {
-                        initializeGame(data);
-                    } else {
-                        showReconnectModal5();
-                    }
-                })
-                .catch(error => {
-                    // Tangani kesalahan koneksi
-                    showReconnectModal5();
-                });
-        }
-
-        function initializeGame(gameData) {
-            const loadingModal = document.getElementById('loadingModal5');
-            
-            // Sembunyikan modal loading
-            loadingModal.classList.remove('show');
-            loadingModal.style.display = 'none';
-
-            // Lakukan inisialisasi game dengan data yang diterima
-            console.log('Game diinisialisasi:', gameData);
-            
-            // Contoh: Redirect ke halaman game atau memuat game
-            // window.location.href = '/game';
-        }
-
         function showReconnectModal() {
-            const loadingModal = document.getElementById('loadingModal5');
-            
-            // Ubah pesan loading
-            const loadingTitle = loadingModal.querySelector('h3');
-            const loadingDesc = loadingModal.querySelector('p');
-            
-            loadingTitle.textContent = 'Koneksi Terputus';
-            loadingDesc.textContent = 'Tidak dapat terhubung ke server. Mencoba sambung ulang...';
+            const reconnectModal = document.getElementById('reconnectModal5');
+            reconnectModal.classList.add('show');
+        }
 
-            // Simulasi percobaan reconnect
-            setTimeout(() => {
-                // Tampilkan opsi reconnect (bisa disesuaikan)
-                alert('Gagal terhubung. Silakan periksa koneksi internet Anda.');
-                
-                // Sembunyikan modal loading
-                loadingModal.classList.remove('show');
-                loadingModal.style.display = 'none';
-            }, 3000);
+        function closeReconnectModal() {
+            const reconnectModal = document.getElementById('reconnectModal5');
+            reconnectModal.classList.remove('show');
+        }
+
+        function reconnectGame() {
+            console.log('Menyambungkan ulang permainan...');
+            // Tambahkan logika reconnect game di sini
+            closeReconnectModal();
+        }
+
+        function returnToLobby() {
+            console.log('Kembali ke lobby...');
+            // Tambahkan logika kembali ke lobby di sini
+            closeReconnectModal();
         }
     </script>
 </body>
