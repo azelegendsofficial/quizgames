@@ -1526,6 +1526,164 @@ footer a:hover {
     color: #f9fafb;
 }
 </style>
+<style>
+    .modal5 {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(17, 24, 39, 0.8);
+            backdrop-filter: blur(10px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .modal5.show {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal5-content {
+            background: linear-gradient(145deg, #ffffff 0%, #f0f4f8 100%);
+            border-radius: 20px;
+            box-shadow: 
+                0 30px 60px -15px rgba(0, 0, 0, 0.2),
+                0 15px 25px -10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal5.show .modal5-content {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .loading5-modal {
+            background: linear-gradient(145deg, #ffffff 0%, #f0f4f8 100%);
+            border-radius: 20px;
+            box-shadow: 
+                0 30px 60px -15px rgba(0, 0, 0, 0.2),
+                0 15px 25px -10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 90%;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+        }
+
+        .spinner5 {
+            width: 80px;
+            height: 80px;
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3182ce;
+            border-radius: 50%;
+            animation: spin5 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin5 {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading5-modal h3 {
+            font-size: 24px;
+            color: #2c5282;
+            margin-bottom: 15px;
+        }
+
+        .loading5-modal p {
+            font-size: 16px;
+            color: #4a5568;
+        }
+
+        .reconnect-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 25px;
+            background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: pulse 2s infinite;
+        }
+
+        .reconnect-icon svg {
+            width: 60px;
+            height: 60px;
+            color: white;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .btn5 {
+            display: inline-block;
+            padding: 14px 30px;
+            margin: 0 10px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn5-trigger {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(72, 187, 120, 0.3);
+        }
+
+        .btn5-primary {
+            background: linear-gradient(135deg, #3182ce 0%, #2c5282 100%);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(49, 130, 206, 0.3);
+        }
+
+        .btn5-secondary {
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+            color: white;
+            box-shadow: 0 10px 20px -5px rgba(113, 128, 150, 0.3);
+        }
+
+        .btn5:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 25px -5px rgba(49, 130, 206, 0.4);
+        }
+
+        .modal5-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #718096;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal5-close:hover {
+            color: #1a202c;
+        }
+</style>
 </head>
 <body>
     <div class="container">
@@ -1576,7 +1734,7 @@ footer a:hover {
                         <span class="tooltip-text">Leaderboard</span>
                     </div>
                 </div>
-                <button class="mode-btn" onclick="startGame()>Play Now</button>
+                <button class="mode-btn" onclick="startGame()">Play Now</button>
             </div>
             
             <div class="mode-card">
@@ -1598,7 +1756,7 @@ footer a:hover {
                         <span class="tooltip-text">Progress Tracking</span>
                     </div>
                 </div>
-                <button class="mode-btn" onclick="startGame()>Start Solo</button>
+                <button class="mode-btn" onclick="startGame()">Start Solo</button>
             </div>
         </div>
         
@@ -1851,6 +2009,34 @@ footer a:hover {
             <p>Share this pin with your friends to join the game:</p>
             <div class="pin-display">526491</div>
             <button>Copy PIN</button>
+        </div>
+    </div>
+
+    <div id="loadingModal5" class="modal5 show">
+        <div class="loading5-modal">
+            <div class="spinner5"></div>
+            <h3>Menyambungkan Server</h3>
+            <p>Mohon tunggu, sedang mencoba terhubung ke server permainan...</p>
+        </div>
+    </div>
+
+    <div id="reconnectModal5" class="modal5">
+        <div class="modal5-content">
+            <button class="modal5-close" onclick="closeReconnectModal()">&times;</button>
+            
+            <div class="reconnect-icon">
+                <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.001 0 01-15.357-2m15.357 2H15"></path>
+                </svg>
+            </div>
+            
+            <h2>Koneksi Game Terputus</h2>
+            <p>Sepertinya Anda terputus dari permainan. Pilih opsi di bawah untuk melanjutkan.</p>
+            
+            <div>
+                <button class="btn5 btn5-primary" onclick="reconnectGame()">Sambungkan Ulang</button>
+                <button class="btn5 btn5-secondary" onclick="returnToLobby()">Kembali ke Lobby</button>
+            </div>
         </div>
     </div>
     
@@ -2173,6 +2359,82 @@ document.addEventListener('DOMContentLoaded', () => {
         function checkServerStatus() {
             // Alihkan atau buka halaman status server
             window.open('https://status.quizgame.com', '_blank');
+        }
+    </script>
+    <script>
+        // Sembunyikan modal loading di awal
+        document.getElementById('loadingModal5').style.display = 'none';
+
+        function startGame() {
+            const loadingModal = document.getElementById('loadingModal5');
+            
+            // Tampilkan modal loading
+            loadingModal.style.display = 'flex';
+            loadingModal.classList.add('show');
+
+            // Simulasi proses memuat game
+            setTimeout(() => {
+                // Proses pengecekan koneksi dan sumber daya game
+                checkGameResources();
+            }, 2000);
+        }
+
+        function checkGameResources() {
+            // Simulasi pengecekan sumber daya game
+            fetch('https://api.game.com/check-resources')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Gagal memuat sumber daya');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Jika sumber daya tersedia
+                    if (data.resourcesAvailable) {
+                        initializeGame(data);
+                    } else {
+                        showReconnectModal();
+                    }
+                })
+                .catch(error => {
+                    // Tangani kesalahan koneksi
+                    showReconnectModal();
+                });
+        }
+
+        function initializeGame(gameData) {
+            const loadingModal = document.getElementById('loadingModal5');
+            
+            // Sembunyikan modal loading
+            loadingModal.classList.remove('show');
+            loadingModal.style.display = 'none';
+
+            // Lakukan inisialisasi game dengan data yang diterima
+            console.log('Game diinisialisasi:', gameData);
+            
+            // Contoh: Redirect ke halaman game atau memuat game
+            // window.location.href = '/game';
+        }
+
+        function showReconnectModal() {
+            const loadingModal = document.getElementById('loadingModal5');
+            
+            // Ubah pesan loading
+            const loadingTitle = loadingModal.querySelector('h3');
+            const loadingDesc = loadingModal.querySelector('p');
+            
+            loadingTitle.textContent = 'Koneksi Terputus';
+            loadingDesc.textContent = 'Tidak dapat terhubung ke server. Mencoba sambung ulang...';
+
+            // Simulasi percobaan reconnect
+            setTimeout(() => {
+                // Tampilkan opsi reconnect (bisa disesuaikan)
+                alert('Gagal terhubung. Silakan periksa koneksi internet Anda.');
+                
+                // Sembunyikan modal loading
+                loadingModal.classList.remove('show');
+                loadingModal.style.display = 'none';
+            }, 3000);
         }
     </script>
 </body>
