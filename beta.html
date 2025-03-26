@@ -1610,7 +1610,7 @@ footer a:hover {
                         <span class="tooltip-text">Leaderboard</span>
                     </div>
                 </div>
-                <button class="mode-btn">Play Now</button>
+                <button class="mode-btn" onclick="startGame()>Play Now</button>
             </div>
             
             <div class="mode-card">
@@ -1632,7 +1632,7 @@ footer a:hover {
                         <span class="tooltip-text">Progress Tracking</span>
                     </div>
                 </div>
-                <button class="mode-btn">Start Solo</button>
+                <button class="mode-btn" onclick="startGame()>Start Solo</button>
             </div>
         </div>
         
@@ -2208,14 +2208,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
     </script>
     <script>
-        // Simulate server loading and error
-        setTimeout(() => {
-            document.getElementById('loadingModal').style.display = 'none';
-            document.getElementById('errorModal').style.display = 'flex';
-        }, 3000);
+        function startGame() {
+            // Tampilkan modal loading
+            document.getElementById('loadingModal').style.display = 'flex';
+
+            // Simulasikan pemuatan server dan kesalahan
+            setTimeout(() => {
+                document.getElementById('loadingModal').style.display = 'none';
+                document.getElementById('errorModal').style.display = 'flex';
+            }, 3000);
+        }
 
         function checkServerStatus() {
-            // Redirect or open server status page
+            // Alihkan atau buka halaman status server
             window.open('https://status.quizgame.com', '_blank');
         }
     </script>
