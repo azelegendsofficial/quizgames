@@ -3,171 +3,227 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>QuizGame - Choose Your Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>QuizGame - Next-Gen Platform Selection</title>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-gradient: linear-gradient(135deg, #6a5af9 0%, #4568dc 100%);
-            --secondary-gradient: linear-gradient(135deg, #ff6b6b 0%, #ff9a9e 100%);
-            --card-bg: rgba(255, 255, 255, 0.12);
-            --card-hover: rgba(255, 255, 255, 0.2);
+            --bg-primary: #0f0f1a;
+            --bg-secondary: #1a1a2e;
+            --accent-primary: #4831d4;
+            --accent-secondary: #ccf381;
             --text-primary: #ffffff;
-            --text-secondary: rgba(255, 255, 255, 0.7);
+            --text-secondary: #b8b8d4;
+            --border-glow: rgba(204, 243, 129, 0.3);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            user-select: none;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--primary-gradient);
+            font-family: 'Space Grotesk', sans-serif;
+            background: var(--bg-primary);
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            perspective: 1000px;
+            overflow: hidden;
             color: var(--text-primary);
-            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        .background-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(0deg, transparent 24%, rgba(26, 26, 46, 0.1) 25%),
+                linear-gradient(90deg, transparent 24%, rgba(26, 26, 46, 0.1) 25%);
+            background-size: 50px 50px;
+            z-index: -1;
+            opacity: 0.3;
         }
 
         .container {
             width: 100%;
-            max-width: 1100px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            padding: 50px;
-            backdrop-filter: blur(20px);
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
+            max-width: 1200px;
+            padding: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             position: relative;
-            overflow: hidden;
+            z-index: 10;
         }
 
         .title {
+            font-size: 4rem;
+            font-weight: 700;
             text-align: center;
             margin-bottom: 60px;
-            font-size: 3rem;
-            font-weight: 800;
-            background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%);
+            background: linear-gradient(45deg, var(--accent-secondary), var(--accent-primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 20px var(--border-glow);
         }
 
-        .device-grid {
+        .platform-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 40px;
-            position: relative;
-            z-index: 2;
+            gap: 50px;
+            width: 100%;
         }
 
-        .device-box {
-            text-decoration: none;
-            display: block;
-            background: var(--card-bg);
-            border-radius: 25px;
-            padding: 50px;
+        .platform-card {
+            background: var(--bg-secondary);
+            border-radius: 30px;
+            padding: 60px;
             text-align: center;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            border: 2px solid transparent;
             position: relative;
             overflow: hidden;
+            border: 2px solid transparent;
+            transition: all 0.5s ease;
+            transform-style: preserve-3d;
+            transform: rotateX(10deg);
         }
 
-        .device-box:hover {
-            transform: translateY(-20px) scale(1.05);
-            background: var(--card-hover);
-            border-color: rgba(255,255,255,0.4);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.25);
+        .platform-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at center, 
+                rgba(72, 49, 212, 0.2) 0%, 
+                transparent 60%);
+            transform: translateZ(-1px);
+            opacity: 0;
+            transition: opacity 0.5s ease;
         }
 
-        .device-icon {
-            width: 140px;
-            height: 140px;
+        .platform-card:hover {
+            transform: scale(1.05) rotateX(0);
+            border-color: var(--accent-primary);
+            box-shadow: 0 25px 50px rgba(72, 49, 212, 0.2);
+        }
+
+        .platform-card:hover::before {
+            opacity: 1;
+        }
+
+        .platform-icon {
+            width: 150px;
+            height: 150px;
+            color: var(--accent-secondary);
             margin: 0 auto 30px;
-            color: var(--text-primary);
-            opacity: 0.85;
+            stroke-width: 1;
             transition: transform 0.4s ease;
         }
 
-        .device-box:hover .device-icon {
-            transform: scale(1.15) rotate(10deg);
+        .platform-card:hover .platform-icon {
+            transform: scale(1.2) rotate(15deg);
         }
 
-        .device-title {
-            font-size: 2rem;
+        .platform-title {
+            font-size: 2.5rem;
+            font-weight: 700;
             margin-bottom: 20px;
-            font-weight: 800;
-            background: linear-gradient(90deg, #ffffff 0%, #e0e0e0 100%);
+            background: linear-gradient(90deg, var(--text-primary), var(--text-secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
-        .device-description {
+        .platform-description {
             color: var(--text-secondary);
             font-size: 1.2rem;
             font-weight: 300;
-            line-height: 1.6;
         }
 
-        /* New Update Badge */
         .new-badge {
             position: absolute;
-            top: 20px;
-            right: 20px;
-            background: var(--secondary-gradient);
-            color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            top: 30px;
+            right: 30px;
+            background: var(--accent-secondary);
+            color: var(--bg-primary);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: 700;
             text-transform: uppercase;
+            font-size: 0.9rem;
             letter-spacing: 1px;
-            animation: pulse 1.5s infinite;
+            animation: badge-pulse 1.5s infinite;
         }
 
-        @keyframes pulse {
+        @keyframes badge-pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.1); }
         }
 
         @media (max-width: 768px) {
-            .device-grid {
+            .platform-grid {
                 grid-template-columns: 1fr;
             }
 
             .title {
-                font-size: 2.5rem;
+                font-size: 3rem;
             }
 
-            .container {
-                padding: 30px;
+            .platform-card {
+                padding: 40px;
             }
+        }
+
+        /* Glowing hover effect */
+        .platform-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(
+                circle at center, 
+                var(--accent-primary) 0%, 
+                transparent 60%
+            );
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .platform-card:hover::after {
+            opacity: 0.1;
         }
     </style>
 </head>
 <body>
+    <div class="background-grid"></div>
     <div class="container">
-        <h1 class="title">Select Your Gaming Platform</h1>
+        <h1 class="title">Choose Your Gaming Arena</h1>
         
-        <div class="device-grid">
-            <a href="komputer.html" class="device-box">
+        <div class="platform-grid">
+            <a href="komputer.html" class="platform-card">
                 <div class="new-badge">New Update</div>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="device-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="platform-icon">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                <h2 class="device-title">PC / Computer</h2>
-                <p class="device-description">Experience immersive gameplay with enhanced features and stunning graphics</p>
+                <h2 class="platform-title">PC / Computer</h2>
+                <p class="platform-description">Unleash ultimate gaming potential with next-gen performance and immersive experiences</p>
             </a>
             
-            <a href="mobile.html" class="device-box">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="device-icon">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
+            <a href="mobile.html" class="platform-card">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="platform-icon">
+                    <path stroke-linecap="round" stroke-lienjoin="round" d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" />
                 </svg>
-                <h2 class="device-title">Mobile / Smartphone</h2>
-                <p class="device-description">Quiz on the go, anytime, anywhere with smooth mobile experience</p>
+                <h2 class="platform-title">Mobile / Smartphone</h2>
+                <p class="platform-description">Gaming freedom at your fingertips - play anytime, anywhere with seamless mobile performance</p>
             </a>
         </div>
     </div>
